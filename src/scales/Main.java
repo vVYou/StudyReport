@@ -19,36 +19,38 @@ public class Main {
 	private static final BigDecimal MENTAL_WEIGHT_CONST = new BigDecimal("60.75781");
 	private static final String NOT_ENOUGH_DATA = "NOT_ENOUGH_DATA";
 
-	public static void main(String[] args) throws IOException, InstantiationException, IllegalAccessException {
+	private static CSVPrinter reportPrinter;
+
+	public static void main(String[] args) throws IOException {
 		String dataInputFile = "D:\\OneDrive - GCloud Belgium\\Prive\\Pauli\\Data.csv";
 		String outputReportFile = "D:\\OneDrive - GCloud Belgium\\Prive\\Pauli\\Report.csv";
-		CSVFormat format = CSVFormat.newFormat(',');
-
-		FileWriter fileWriter = new FileWriter(outputReportFile);
-		CSVPrinter reportPrinter = new CSVPrinter(fileWriter, format);
-		reportPrinter.printRecord("study_id, physical_weight, mental_weight");
-		//reportPrinter.println();
+		initializeReport(outputReportFile);
 
 		FileReader fileReader = new FileReader(dataInputFile);
-		try (CSVParser formEntries = new CSVParser(fileReader, format)) {
+		try (CSVParser formEntries = new CSVParser(fileReader, CSVFormat.DEFAULT)) {
 			for (CSVRecord formEntry : formEntries.getRecords()) {
 				String studyId = formEntry.get(CSVDescription.STUDY_ID.getColumnIndex());
 				BigDecimal physicalWeight = calculatePhysicalWeight(formEntry);
 				BigDecimal mentalWeight = calculateMentalWeight(formEntry);
 
-				String physicalWeightS = PHYSICAL_WEIGHT_CONST.equals(physicalWeight) ? NOT_ENOUGH_DATA : physicalWeight.toString();
-				String mentalWeightS = MENTAL_WEIGHT_CONST.equals(mentalWeight) ? NOT_ENOUGH_DATA : mentalWeight.toString();
-				reportPrinter.printRecords(studyId, physicalWeightS, mentalWeightS);
-				//reportPrinter.println();
-				//reportPrinter.printRecord(studyId);
-				//reportPrinter.printRecord(physicalWeightS);
-				//reportPrinter.printRecord(mentalWeightS);
-				//reportPrinter.println();
-				System.out.println("" + studyId + ", " + physicalWeightS + ", " + mentalWeightS);
+				writeReportLine(studyId, physicalWeight, mentalWeight);
 			}
 		}
 
 		reportPrinter.close();
+	}
+
+	private static void initializeReport(String outputReportFile) throws IOException {
+		FileWriter fileWriter = new FileWriter(outputReportFile);
+		reportPrinter = new CSVPrinter(fileWriter, CSVFormat.DEFAULT);
+		reportPrinter.printRecord("study_id", "physical_weight", "mental_weight");
+	}
+
+	private static void writeReportLine(String studyId, BigDecimal physicalWeight, BigDecimal mentalWeight) throws IOException {
+		String physicalWeightS = PHYSICAL_WEIGHT_CONST.equals(physicalWeight) ? NOT_ENOUGH_DATA : physicalWeight.toString();
+		String mentalWeightS = MENTAL_WEIGHT_CONST.equals(mentalWeight) ? NOT_ENOUGH_DATA : mentalWeight.toString();
+		reportPrinter.printRecord(studyId, physicalWeightS, mentalWeightS);
+		System.out.println("" + studyId + ", " + physicalWeightS + ", " + mentalWeightS);
 	}
 
 	private static Integer getFormAnswer(CSVRecord formEntry, CSVDescription desc) {
