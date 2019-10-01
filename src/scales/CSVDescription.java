@@ -1,5 +1,9 @@
 package scales;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import scales.answers.BP2;
 import scales.answers.GH1;
 import scales.answers.MH3;
@@ -44,5 +48,11 @@ public enum CSVDescription {
 
 	public Class<? extends Answer> getAnswer() {
 		return answer;
+	}
+
+	public static List<CSVDescription> getAllAnswerColumns() {
+		return Arrays.stream(values())
+				.filter(desc -> desc.getAnswer() != null)
+				.collect(Collectors.toList());
 	}
 }

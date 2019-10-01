@@ -1,13 +1,8 @@
 package scales.answers;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.Optional;
 
 import scales.Answer;
-import scales.FormValue;
-import scales.MentalWeight;
-import scales.PhysicalWeight;
 
 public enum SF2 implements Answer<SF2> {
 	SF2_1("-7.23216", "3.93115", 1),
@@ -33,13 +28,6 @@ public enum SF2 implements Answer<SF2> {
 	@Override
 	public int toFormValue(SF2 enumValue) {
 		return enumValue.getFormValue();
-	}
-
-	@Override
-	public Optional<SF2> toEnumValue(int formValue) {
-		return Arrays.stream(values())
-				.filter(value -> value.getFormValue() == formValue)
-				.findFirst();
 	}
 
 	@Override
