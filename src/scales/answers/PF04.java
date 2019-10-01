@@ -5,8 +5,8 @@ import java.math.BigDecimal;
 import scales.Answer;
 
 public enum PF04 implements Answer<PF04> {
-	PF04_1("-7.23216", "3.93115", 1),
-	PF04_2("-3.45555", "1.86840", 2);
+	PF04_1("-6.24397", "2.68282", 1),
+	PF04_2("-2.73557", "1.43103", 2);
 
 	BigDecimal physicalWeight;
 	BigDecimal mentalWeight;

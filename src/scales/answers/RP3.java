@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import scales.Answer;
 
 public enum RP3 implements Answer<RP3> {
-	RP3_1("-7.23216", "3.93115", 1);
+	RP3_1("-5.51747", "1.66968", 1);
 
 	BigDecimal physicalWeight;
 	BigDecimal mentalWeight;

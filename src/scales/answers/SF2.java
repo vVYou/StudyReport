@@ -5,10 +5,10 @@ import java.math.BigDecimal;
 import scales.Answer;
 
 public enum SF2 implements Answer<SF2> {
-	SF2_1("-7.23216", "3.93115", 1),
-	SF2_2("-7.23216", "3.93115", 2),
-	SF2_3("-7.23216", "3.93115", 3),
-	SF2_4("-7.23216", "3.93115", 4);
+	SF2_1("-0.33682", "-6.29724", 1),
+	SF2_2("-0.94342", "-8.26066", 2),
+	SF2_3("-0.18043", "-5.63286", 3),
+	SF2_4("0.11038", "-3.13896", 4);
 
 	BigDecimal physicalWeight;
 	BigDecimal mentalWeight;

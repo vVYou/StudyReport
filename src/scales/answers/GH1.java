@@ -5,10 +5,10 @@ import java.math.BigDecimal;
 import scales.Answer;
 
 public enum GH1 implements Answer<GH1> {
-	GH1_1("-7.23216", "3.93115", 1),
-	GH1_2("-7.23216", "3.93115", 2),
-	GH1_3("-7.23216", "3.93115", 3),
-	GH1_4("-7.23216", "3.93115", 4);
+	GH1_1("-8.37399", "-1.71175", 1),
+	GH1_2("-5.56461", "-0.16891", 2),
+	GH1_3("-3.02396", "0.03482", 3),
+	GH1_4("-1.31872", "-0.06064", 4);
 
 	BigDecimal physicalWeight;
 	BigDecimal mentalWeight;

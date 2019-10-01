@@ -5,11 +5,11 @@ import java.math.BigDecimal;
 import scales.Answer;
 
 public enum MH3 implements Answer<MH3> {
-	MH3_1("-7.23216", "3.93115", 1),
-	MH3_2("-7.23216", "3.93115", 2),
-	MH3_3("-7.23216", "3.93115", 3),
-	MH3_4("-7.23216", "3.93115", 4),
-	MH3_5("-7.23216", "3.93115", 5);
+	MH3_1("3.46638", "-10.19085", 1),
+	MH3_2("2.90426", "-7.92717", 2),
+	MH3_3("2.37241", "-6.31121", 3),
+	MH3_4("1.36689", "-4.09842", 4),
+	MH3_5("0.66514", "-1.94949", 5);
 
 	BigDecimal physicalWeight;
 	BigDecimal mentalWeight;
