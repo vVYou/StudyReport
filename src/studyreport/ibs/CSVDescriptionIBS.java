@@ -1,33 +1,23 @@
 package studyreport.ibs;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import studyreport.sf12.AnswerSF12;
-
 public enum CSVDescriptionIBS {
-	STUDY_ID(0, null);
+	STUDY_ID(0),
+	IBS_SSS_1A(1),
+	IBS_SSS_1B(2),
+	IBS_SSS_1C(3),
+	IBS_SSS_2A(4),
+	IBS_SSS_2B(5),
+	IBS_SSS_3(6),
+	IBS_SSS_4(7);
 
 	int columnIndex;
-	Class<? extends AnswerSF12> answer;
 
-	CSVDescriptionIBS(int columnIndex, Class<? extends AnswerSF12> answer) {
+	CSVDescriptionIBS(int columnIndex) {
 		this.columnIndex = columnIndex;
-		this.answer = answer;
 	}
 
 	public int getColumnIndex() {
 		return columnIndex;
 	}
 
-	public Class<? extends AnswerSF12> getAnswer() {
-		return answer;
-	}
-
-	public static List<CSVDescriptionIBS> getAllAnswerColumns() {
-		return Arrays.stream(values())
-				.filter(desc -> desc.getAnswer() != null)
-				.collect(Collectors.toList());
-	}
 }
