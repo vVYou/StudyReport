@@ -15,4 +15,5 @@ public record SF12(BigDecimal sf12m, BigDecimal sf12p) {
 	public String sf12mToReport() {
 		return MENTAL_WEIGHT_CONST.equals(sf12m) ? NOT_ENOUGH_DATA : sf12m.toString();
 	}
+	
 }

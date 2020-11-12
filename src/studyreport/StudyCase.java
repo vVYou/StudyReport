@@ -63,4 +63,14 @@ public class StudyCase {
 	public int hashCode() {
 		return Objects.hash(studyID);
 	}
+
+	@Override
+	public String toString() {
+		return "StudyCase{" +
+			   "studyID='" + studyID + '\'' +
+			   ", ibs=" + ibs +
+			   ", sf12=" + sf12 +
+			   ", had=" + had +
+			   '}';
+	}
 }

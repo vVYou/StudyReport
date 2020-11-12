@@ -34,6 +34,11 @@ public class IBS {
 		return score;
 	}
 
+	@Override
+	public String toString() {
+		return "IBS = " + score();
+	}
+
 	public static class Builder {
 		private boolean ibs1a;
 		private int ibs1b;

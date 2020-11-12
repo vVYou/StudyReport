@@ -66,7 +66,7 @@ public class Main {
 	private static HashMap<String, HAD> parseHAD(String hadDataInputFile) throws IOException {
 		HashMap<String, HAD> hads = new HashMap<>();
 		FileReader fileReader = new FileReader(hadDataInputFile);
-		try (CSVParser formEntries = new CSVParser(fileReader, CSVFormat.DEFAULT)) {
+		try (CSVParser formEntries = new CSVParser(fileReader, CSVFormat.DEFAULT.withHeader())) {
 			for (CSVRecord formEntry : formEntries) {
 				String studyId = formEntry.get(CSVDescriptionHAD.STUDY_ID.getColumnIndex());
 				HAD had = HADCalculation.getHad(formEntry);
@@ -79,7 +79,7 @@ public class Main {
 	private static HashMap<String, IBS> parseIBS(String ibsDataInputFile) throws IOException {
 		HashMap<String, IBS> ibss = new HashMap<>();
 		FileReader fileReader = new FileReader(ibsDataInputFile);
-		try (CSVParser formEntries = new CSVParser(fileReader, CSVFormat.DEFAULT)) {
+		try (CSVParser formEntries = new CSVParser(fileReader, CSVFormat.DEFAULT.withHeader())) {
 			for (CSVRecord formEntry : formEntries.getRecords()) {
 				String studyId = formEntry.get(CSVDescriptionIBS.STUDY_ID.getColumnIndex());
 				IBS ibs = IBSCalculation.getIBS(formEntry);
@@ -92,7 +92,7 @@ public class Main {
 	private static HashMap<String, SF12> parseSF12(String sf12DataInputFile) throws IOException {
 		HashMap<String, SF12> sf12s = new HashMap<>();
 		FileReader fileReader = new FileReader(sf12DataInputFile);
-		try (CSVParser formEntries = new CSVParser(fileReader, CSVFormat.DEFAULT)) {
+		try (CSVParser formEntries = new CSVParser(fileReader, CSVFormat.DEFAULT.withHeader())) {
 			for (CSVRecord formEntry : formEntries.getRecords()) {
 				String studyId = formEntry.get(CSVDescriptionSF12.STUDY_ID.getColumnIndex());
 				SF12 sf12 = SF12Calculation.getSF12(formEntry);
@@ -116,7 +116,7 @@ public class Main {
 	}
 
 	private static void writeReport(List<StudyCase> studyCases) throws IOException {
-		for (StudyCase studyCase : studyCases) {
+		for (StudyCase studyCase : studyCases) { //TODO make it null safe IBS / SF12 / HAD
 			reportPrinter.printRecord(studyCase.getStudyID(),
 									  studyCase.getIbs().score(),
 									  studyCase.getHad().a(),
