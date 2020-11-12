@@ -1,10 +1,10 @@
-package scales.answers;
+package studyreport.sf12.answers;
 
 import java.math.BigDecimal;
 
-import scales.Answer;
+import studyreport.sf12.AnswerSF12;
 
-public enum RE2 implements Answer<RE2> {
+public enum RE2 implements AnswerSF12<RE2> {
 	RE2_1("3.04365", "-6.82672", 1);
 
 	BigDecimal physicalWeight;

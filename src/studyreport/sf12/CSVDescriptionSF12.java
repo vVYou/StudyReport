@@ -1,23 +1,23 @@
-package scales;
+package studyreport.sf12;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import scales.answers.BP2;
-import scales.answers.GH1;
-import scales.answers.MH3;
-import scales.answers.MH4;
-import scales.answers.PF02;
-import scales.answers.PF04;
-import scales.answers.RE2;
-import scales.answers.RE3;
-import scales.answers.RP2;
-import scales.answers.RP3;
-import scales.answers.SF2;
-import scales.answers.VT2;
+import studyreport.sf12.answers.BP2;
+import studyreport.sf12.answers.GH1;
+import studyreport.sf12.answers.MH3;
+import studyreport.sf12.answers.MH4;
+import studyreport.sf12.answers.PF02;
+import studyreport.sf12.answers.PF04;
+import studyreport.sf12.answers.RE2;
+import studyreport.sf12.answers.RE3;
+import studyreport.sf12.answers.RP2;
+import studyreport.sf12.answers.RP3;
+import studyreport.sf12.answers.SF2;
+import studyreport.sf12.answers.VT2;
 
-public enum CSVDescription {
+public enum CSVDescriptionSF12 {
 	STUDY_ID(0, null),
 	SF12_FU12_DATE(1, null),
 	SF12_FU12_1(2, GH1.class),
@@ -35,9 +35,9 @@ public enum CSVDescription {
 	SF12_FU12_MOIS_COMPLETE(14, null);
 
 	int columnIndex;
-	Class<? extends Answer> answer;
+	Class<? extends AnswerSF12> answer;
 
-	CSVDescription(int columnIndex, Class<? extends Answer> answer) {
+	CSVDescriptionSF12(int columnIndex, Class<? extends AnswerSF12> answer) {
 		this.columnIndex = columnIndex;
 		this.answer = answer;
 	}
@@ -46,11 +46,11 @@ public enum CSVDescription {
 		return columnIndex;
 	}
 
-	public Class<? extends Answer> getAnswer() {
+	public Class<? extends AnswerSF12> getAnswer() {
 		return answer;
 	}
 
-	public static List<CSVDescription> getAllAnswerColumns() {
+	public static List<CSVDescriptionSF12> getAllAnswerColumns() {
 		return Arrays.stream(values())
 				.filter(desc -> desc.getAnswer() != null)
 				.collect(Collectors.toList());

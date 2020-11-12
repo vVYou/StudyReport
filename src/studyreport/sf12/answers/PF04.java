@@ -1,10 +1,10 @@
-package scales.answers;
+package studyreport.sf12.answers;
 
 import java.math.BigDecimal;
 
-import scales.Answer;
+import studyreport.sf12.AnswerSF12;
 
-public enum PF04 implements Answer<PF04> {
+public enum PF04 implements AnswerSF12<PF04> {
 	PF04_1("-6.24397", "2.68282", 1),
 	PF04_2("-2.73557", "1.43103", 2);
 

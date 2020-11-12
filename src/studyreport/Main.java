@@ -1,89 +1,119 @@
-package scales;
+package studyreport;
 
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.Optional;
-import java.util.function.Function;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.TreeSet;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.CSVRecord;
 
-public class Main {
+import studyreport.had.HAD;
+import studyreport.had.HADCalculation;
+import studyreport.ibs.CSVDescriptionIBS;
+import studyreport.ibs.IBS;
+import studyreport.ibs.IBSCalculation;
+import studyreport.sf12.CSVDescriptionSF12;
+import studyreport.sf12.SF12;
+import studyreport.sf12.SF12Calculation;
 
-	private static final BigDecimal PHYSICAL_WEIGHT_CONST = new BigDecimal("56.57706");
-	private static final BigDecimal MENTAL_WEIGHT_CONST = new BigDecimal("60.75781");
-	private static final String NOT_ENOUGH_DATA = "NOT_ENOUGH_DATA";
+public class Main {
+	public static final String NOT_ENOUGH_DATA = " - ";
 
 	private static CSVPrinter reportPrinter;
 
 	public static void main(String[] args) throws IOException {
-		String dataInputFile = "D:\\OneDrive - GCloud Belgium\\Prive\\Pauli\\Data.csv";
-		String outputReportFile = "D:\\OneDrive - GCloud Belgium\\Prive\\Pauli\\Report.csv";
+		String ibsDataInputFile = "D:\\OneDrive - GCloud Belgium\\Prive\\Pauli\\testNov\\IBSSSS_M6.csv";
+		String sf12DataInputFile = "D:\\OneDrive - GCloud Belgium\\Prive\\Pauli\\testNov\\SF12_M6.csv";
+		String hadDataInputFile = "D:\\OneDrive - GCloud Belgium\\Prive\\Pauli\\testNov\\HAD_M6.csv";
+		//String forwardDataInputFile = "D:\\OneDrive - GCloud Belgium\\Prive\\Pauli\\Data.csv";
+
+		String outputReportFile = "D:\\OneDrive - GCloud Belgium\\Prive\\Pauli\\testNov\\Report.csv";
+
 		initializeReport(outputReportFile);
+		HashMap<String, IBS> ibss = parseIBS(ibsDataInputFile);
+		HashMap<String, SF12> sf12s = parseSF12(sf12DataInputFile);
+		HashMap<String, HAD> hads = parseHAD(hadDataInputFile);
 
-		FileReader fileReader = new FileReader(dataInputFile);
-		try (CSVParser formEntries = new CSVParser(fileReader, CSVFormat.DEFAULT)) {
-			for (CSVRecord formEntry : formEntries.getRecords()) {
-				String studyId = formEntry.get(CSVDescription.STUDY_ID.getColumnIndex());
-				BigDecimal physicalWeight = calculatePhysicalWeight(formEntry);
-				BigDecimal mentalWeight = calculateMentalWeight(formEntry);
-
-				writeReportLine(studyId, physicalWeight, mentalWeight);
-			}
-		}
+		List<StudyCase> studyCases = merge(ibss, sf12s, hads);
+		writeReport(studyCases);
 
 		reportPrinter.close();
+	}
+
+	private static HashMap<String, HAD> parseHAD(String hadDataInputFile) {
+		return null;
+	}
+
+	private static List<StudyCase> merge(HashMap<String, IBS> ibss, HashMap<String, SF12> sf12s, HashMap<String, HAD> hads) {
+		TreeSet<String> allIds = new TreeSet<>(ibss.keySet());
+		allIds.addAll(sf12s.keySet());
+		allIds.addAll(hads.keySet());
+
+		List<StudyCase> studyCases = new ArrayList<>();
+		for (String id : allIds) {
+			StudyCase studyCase = new StudyCase(id);
+			studyCase.setIbs(ibss.get(id));
+			studyCase.setSf12(sf12s.get(id));
+			studyCase.setHad(hads.get(id));
+			studyCases.add(studyCase);
+		}
+		return studyCases;
+	}
+
+	private static HashMap<String, IBS> parseIBS(String ibsDataInputFile) throws IOException {
+		HashMap<String, IBS> ibss = new HashMap<>();
+		FileReader fileReader = new FileReader(ibsDataInputFile);
+		try (CSVParser formEntries = new CSVParser(fileReader, CSVFormat.DEFAULT)) {
+			for (CSVRecord formEntry : formEntries.getRecords()) {
+				String studyId = formEntry.get(CSVDescriptionIBS.STUDY_ID.getColumnIndex());
+				IBS ibs = IBSCalculation.getIBS(formEntry);
+				ibss.put(studyId, ibs);
+			}
+		}
+		return ibss;
+	}
+
+	private static HashMap<String, SF12> parseSF12(String sf12DataInputFile) throws IOException {
+		HashMap<String, SF12> sf12s = new HashMap<>();
+		FileReader fileReader = new FileReader(sf12DataInputFile);
+		try (CSVParser formEntries = new CSVParser(fileReader, CSVFormat.DEFAULT)) {
+			for (CSVRecord formEntry : formEntries.getRecords()) {
+				String studyId = formEntry.get(CSVDescriptionSF12.STUDY_ID.getColumnIndex());
+				SF12 sf12 = SF12Calculation.getSF12(formEntry);
+				sf12s.put(studyId, sf12);
+			}
+		}
+		return sf12s;
 	}
 
 	private static void initializeReport(String outputReportFile) throws IOException {
 		FileWriter fileWriter = new FileWriter(outputReportFile);
 		reportPrinter = new CSVPrinter(fileWriter, CSVFormat.DEFAULT);
-		reportPrinter.printRecord("study_id", "physical_weight", "mental_weight");
+		Object[] headers = {"study_id",
+							IBSCalculation.HEADER,
+							HADCalculation.HEADER_A,
+							HADCalculation.HEADER_D,
+							SF12Calculation.HEADER_M,
+							SF12Calculation.HEADER_P};
+		//TODO add data report header
+		reportPrinter.printRecord(headers);
 	}
 
-	private static void writeReportLine(String studyId, BigDecimal physicalWeight, BigDecimal mentalWeight) throws IOException {
-		String physicalWeightS = PHYSICAL_WEIGHT_CONST.equals(physicalWeight) ? NOT_ENOUGH_DATA : physicalWeight.toString();
-		String mentalWeightS = MENTAL_WEIGHT_CONST.equals(mentalWeight) ? NOT_ENOUGH_DATA : mentalWeight.toString();
-		reportPrinter.printRecord(studyId, physicalWeightS, mentalWeightS);
-		System.out.println("" + studyId + ", " + physicalWeightS + ", " + mentalWeightS);
-	}
-
-	private static Integer getFormAnswer(CSVRecord formEntry, CSVDescription desc) {
-		String formAnswer = formEntry.get(desc.getColumnIndex());
-		return formAnswer.matches("[0-9]") ? Integer.valueOf(formAnswer) : Integer.MAX_VALUE;
-	}
-
-	private static BigDecimal calculateMentalWeight(CSVRecord formEntry) {
-		BigDecimal mentalWeight = sumAnswerWeight(formEntry, MentalWeight::getMentalWeight);
-		return mentalWeight.add(MENTAL_WEIGHT_CONST);
-	}
-
-	private static BigDecimal calculatePhysicalWeight(CSVRecord formEntry) {
-		BigDecimal physicalWeight = sumAnswerWeight(formEntry, PhysicalWeight::getPhysicalWeight);
-		return physicalWeight.add(PHYSICAL_WEIGHT_CONST);
-	}
-
-	private static BigDecimal sumAnswerWeight(CSVRecord formEntry, Function<Answer, BigDecimal> weightToSum) {
-		BigDecimal mentalWeight = BigDecimal.ZERO;
-		for (CSVDescription desc : CSVDescription.getAllAnswerColumns()) {
-			Integer formAnswer = getFormAnswer(formEntry, desc);
-			BigDecimal answerMentalWeight = toEnumValue(desc.getAnswer(), formAnswer)
-					.map(weightToSum)
-					.orElseGet(() -> BigDecimal.ZERO);
-			mentalWeight = mentalWeight.add(answerMentalWeight);
+	private static void writeReport(List<StudyCase> studyCases) throws IOException {
+		for (StudyCase studyCase : studyCases) {
+			reportPrinter.printRecord(studyCase.getStudyID(),
+									  studyCase.getIbs().score(),
+									  studyCase.getHad().a(),
+									  studyCase.getHad().d(),
+									  studyCase.getSf12().sf12mToReport(),
+									  studyCase.getSf12().sf12pToReport());
 		}
-		return mentalWeight;
 	}
 
-	private static Optional<Answer> toEnumValue(Class<? extends Answer> clazz, int formValue) {
-		return Arrays.stream(clazz.getEnumConstants())
-				.map(Answer.class::cast)
-				.filter(value -> value.getFormValue() == formValue)
-				.findFirst();
-	}
 }

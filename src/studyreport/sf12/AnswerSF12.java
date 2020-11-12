@@ -1,4 +1,6 @@
-package scales;
+package studyreport.sf12;
 
-public interface Answer<E extends Enum> extends FormValue<E>, MentalWeight, PhysicalWeight {
+import studyreport.FormValue;
+
+public interface AnswerSF12<E extends Enum> extends FormValue<E>, MentalWeight, PhysicalWeight {
 }

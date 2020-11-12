@@ -1,10 +1,10 @@
-package scales.answers;
+package studyreport.sf12.answers;
 
 import java.math.BigDecimal;
 
-import scales.Answer;
+import studyreport.sf12.AnswerSF12;
 
-public enum MH4 implements Answer<MH4> {
+public enum MH4 implements AnswerSF12<MH4> {
 	MH4_1("4.61446", "-16.15395", 1),
 	MH4_2("3.41593", "-10.77911", 2),
 	MH4_3("2.234247", "-8.09914", 3),

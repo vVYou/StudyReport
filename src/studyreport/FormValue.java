@@ -1,4 +1,4 @@
-package scales;
+package studyreport;
 
 public interface FormValue<E extends Enum> {
 
