@@ -28,12 +28,12 @@ public class Main {
 	private static CSVPrinter reportPrinter;
 
 	public static void main(String[] args) throws IOException {
-		String ibsDataInputFile = "D:\\OneDrive - GCloud Belgium\\Prive\\Pauli\\testNov\\IBSSSS_M6.csv";
-		String sf12DataInputFile = "D:\\OneDrive - GCloud Belgium\\Prive\\Pauli\\testNov\\SF12_M6.csv";
-		String hadDataInputFile = "D:\\OneDrive - GCloud Belgium\\Prive\\Pauli\\testNov\\HAD_M6.csv";
-		//String forwardDataInputFile = "D:\\OneDrive - GCloud Belgium\\Prive\\Pauli\\Data.csv";
+		String ibsDataInputFile = "D:\\studyreport\\testNov\\IBSSSS_M6.csv";
+		String sf12DataInputFile = "D:\\studyreport\\testNov\\SF12_M6.csv";
+		String hadDataInputFile = "D:\\studyreport\\testNov\\HAD_M6.csv";
+		//String forwardDataInputFile = "D:\\studyreport\\Data.csv";
 
-		String outputReportFile = "D:\\OneDrive - GCloud Belgium\\Prive\\Pauli\\testNov\\Report.csv";
+		String outputReportFile = "D:\\studyreport\\testNov\\Report.csv";
 
 		initializeReport(outputReportFile);
 		HashMap<String, IBS> ibss = parseIBS(ibsDataInputFile);
