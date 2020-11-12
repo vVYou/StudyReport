@@ -13,6 +13,7 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.CSVRecord;
 
+import studyreport.had.CSVDescriptionHAD;
 import studyreport.had.HAD;
 import studyreport.had.HADCalculation;
 import studyreport.ibs.CSVDescriptionIBS;
@@ -46,10 +47,6 @@ public class Main {
 		reportPrinter.close();
 	}
 
-	private static HashMap<String, HAD> parseHAD(String hadDataInputFile) {
-		return null;
-	}
-
 	private static List<StudyCase> merge(HashMap<String, IBS> ibss, HashMap<String, SF12> sf12s, HashMap<String, HAD> hads) {
 		TreeSet<String> allIds = new TreeSet<>(ibss.keySet());
 		allIds.addAll(sf12s.keySet());
@@ -64,6 +61,19 @@ public class Main {
 			studyCases.add(studyCase);
 		}
 		return studyCases;
+	}
+
+	private static HashMap<String, HAD> parseHAD(String hadDataInputFile) throws IOException {
+		HashMap<String, HAD> hads = new HashMap<>();
+		FileReader fileReader = new FileReader(hadDataInputFile);
+		try (CSVParser formEntries = new CSVParser(fileReader, CSVFormat.DEFAULT)) {
+			for (CSVRecord formEntry : formEntries) {
+				String studyId = formEntry.get(CSVDescriptionHAD.STUDY_ID.getColumnIndex());
+				HAD had = HADCalculation.getHad(formEntry);
+				hads.put(studyId, had);
+			}
+		}
+		return hads;
 	}
 
 	private static HashMap<String, IBS> parseIBS(String ibsDataInputFile) throws IOException {

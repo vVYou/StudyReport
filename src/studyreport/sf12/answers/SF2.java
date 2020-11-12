@@ -7,8 +7,9 @@ import studyreport.sf12.AnswerSF12;
 public enum SF2 implements AnswerSF12<SF2> {
 	SF2_1("-0.33682", "-6.29724", 1),
 	SF2_2("-0.94342", "-8.26066", 2),
-	SF2_3("-0.18043", "-5.63286", 3),
-	SF2_4("0.11038", "-3.13896", 4);
+	SF2_4("-0.18043", "-5.63286", 4),
+	SF2_5("0.11038", "-3.13896", 5),
+	SF2_6("0", "0", 6);
 
 	BigDecimal physicalWeight;
 	BigDecimal mentalWeight;

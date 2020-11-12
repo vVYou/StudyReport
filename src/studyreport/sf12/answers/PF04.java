@@ -6,7 +6,8 @@ import studyreport.sf12.AnswerSF12;
 
 public enum PF04 implements AnswerSF12<PF04> {
 	PF04_1("-6.24397", "2.68282", 1),
-	PF04_2("-2.73557", "1.43103", 2);
+	PF04_2("-2.73557", "1.43103", 2),
+	PF04_3("0", "0", 3);
 
 	BigDecimal physicalWeight;
 	BigDecimal mentalWeight;

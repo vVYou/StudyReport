@@ -5,7 +5,8 @@ import java.math.BigDecimal;
 import studyreport.sf12.AnswerSF12;
 
 public enum RP3 implements AnswerSF12<RP3> {
-	RP3_1("-5.51747", "1.66968", 1);
+	RP3_1("-5.51747", "1.66968", 1),
+	RP3_2("0", "0", 2);
 
 	BigDecimal physicalWeight;
 	BigDecimal mentalWeight;

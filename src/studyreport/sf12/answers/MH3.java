@@ -5,11 +5,12 @@ import java.math.BigDecimal;
 import studyreport.sf12.AnswerSF12;
 
 public enum MH3 implements AnswerSF12<MH3> {
-	MH3_1("3.46638", "-10.19085", 1),
-	MH3_2("2.90426", "-7.92717", 2),
-	MH3_3("2.37241", "-6.31121", 3),
-	MH3_4("1.36689", "-4.09842", 4),
-	MH3_5("0.66514", "-1.94949", 5);
+	MH3_1("0", "0", 1),
+	MH3_2("0.66514", "-1.94949", 2),
+	MH3_3("1.36689", "-4.09842", 3),
+	MH3_4("2.37241", "-6.31121", 4),
+	MH3_5("2.90426", "-7.92717", 5),
+	MH3_6("3.46638", "-10.19085", 6);
 
 	BigDecimal physicalWeight;
 	BigDecimal mentalWeight;

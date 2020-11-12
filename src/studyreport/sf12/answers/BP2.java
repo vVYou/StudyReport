@@ -5,10 +5,11 @@ import java.math.BigDecimal;
 import studyreport.sf12.AnswerSF12;
 
 public enum BP2 implements AnswerSF12<BP2> {
-	BP2_1("-11.25544", "1.48619", 1),
-	BP2_2("-8.38063", "1.76691", 2),
+	BP2_1("0", "0", 1),
+	BP2_2("-3.80130", "0.90384", 2),
 	BP2_3("-6.50522", "1.49384", 3),
-	BP2_4("-3.80130", "0.90384", 4);
+	BP2_4("-8.38063", "1.76691", 4),
+	BP2_5("-11.25544", "1.48619", 5);
 
 	BigDecimal physicalWeight;
 	BigDecimal mentalWeight;
