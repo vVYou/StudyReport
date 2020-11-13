@@ -7,18 +7,18 @@ public class IBSCalculation {
 
 	public static IBS getIBS(CSVRecord formEntry) {
 		return IBS.Builder.anIBS()
-				.withIbs1a(getBoolean(formEntry, CSVDescriptionIBS.IBS_SSS_1A))
-				.withIbs1b(getInt(formEntry, CSVDescriptionIBS.IBS_SSS_1B))
-				.withIbs1c(getInt(formEntry, CSVDescriptionIBS.IBS_SSS_1C))
-				.withIbs2a(getBoolean(formEntry, CSVDescriptionIBS.IBS_SSS_2A))
-				.withIbs2b(getInt(formEntry, CSVDescriptionIBS.IBS_SSS_2B))
-				.withIbs3(getInt(formEntry, CSVDescriptionIBS.IBS_SSS_3))
-				.withIbs4(getInt(formEntry, CSVDescriptionIBS.IBS_SSS_4))
+				.withIbs1a(getBoolean(formEntry, CSVDescriptionIBS.ibs_sss_1_a))
+				.withIbs1b(getInt(formEntry, CSVDescriptionIBS.ibs_sss_1_b))
+				.withIbs1c(getInt(formEntry, CSVDescriptionIBS.ibs_sss_1_c))
+				.withIbs2a(getBoolean(formEntry, CSVDescriptionIBS.ibs_sss_2_a))
+				.withIbs2b(getInt(formEntry, CSVDescriptionIBS.ibs_sss_2_b))
+				.withIbs3(getInt(formEntry, CSVDescriptionIBS.ibs_sss_3))
+				.withIbs4(getInt(formEntry, CSVDescriptionIBS.ibs_sss_4))
 				.build();
 	}
 
-	private static Integer getInt(CSVRecord formEntry, CSVDescriptionIBS ibsSss1b) {
-		String formValue = formEntry.get(ibsSss1b.getColumnIndex());
+	private static Integer getInt(CSVRecord formEntry, CSVDescriptionIBS csvDescriptionIBS) {
+		String formValue = formEntry.get(csvDescriptionIBS);
 		String value = formValue == null || formValue.isEmpty() ? "0" : formValue;
 		return Integer.valueOf(value);
 	}

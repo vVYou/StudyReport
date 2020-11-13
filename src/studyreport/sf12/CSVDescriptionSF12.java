@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.commons.csv.CSVFormat;
+
 import studyreport.sf12.answers.BP2;
 import studyreport.sf12.answers.GH1;
 import studyreport.sf12.answers.MH3;
@@ -18,19 +20,19 @@ import studyreport.sf12.answers.SF2;
 import studyreport.sf12.answers.VT2;
 
 public enum CSVDescriptionSF12 {
-	STUDY_ID(0, null),
-	SF12_FU12_1(1, GH1.class),
-	SF12_FU12_2_A(2, PF02.class),
-	SF12_FU12_2_B(3, PF04.class),
-	SF12_FU12_3_A(4, RP2.class),
-	SF12_FU12_3_B(5, RP3.class),
-	SF12_FU12_4_A(6, RE2.class),
-	SF12_FU12_4_B(7, RE3.class),
-	SF12_FU12_5(8, BP2.class),
-	SF12_FU12_6_A(9, MH3.class),
-	SF12_FU12_6_B(10, VT2.class),
-	SF12_FU12_6_C(11, MH4.class),
-	SF12_FU12_7(12, SF2.class);
+	numero_d_identification(0, null),
+	sf12_1_1(1, GH1.class),
+	sf12_1_2_a(2, PF02.class),
+	sf12_1_2_b(3, PF04.class),
+	sf12_1_3_a(4, RP2.class),
+	sf12_1_3_b(5, RP3.class),
+	sf12_1_4_a(6, RE2.class),
+	sf12_1_4_b(7, RE3.class),
+	sf12_1_5(8, BP2.class),
+	sf12_1_6_a(9, MH3.class),
+	sf12_1_6_b(10, VT2.class),
+	sf12_1_6_c(11, MH4.class),
+	sf12_1_7(12, SF2.class);
 
 	int columnIndex;
 	Class<? extends AnswerSF12> answer;
@@ -38,6 +40,12 @@ public enum CSVDescriptionSF12 {
 	CSVDescriptionSF12(int columnIndex, Class<? extends AnswerSF12> answer) {
 		this.columnIndex = columnIndex;
 		this.answer = answer;
+	}
+
+	public static CSVFormat getFormat() {
+		return CSVFormat.DEFAULT
+				.withHeader(CSVDescriptionSF12.class)
+				.withFirstRecordAsHeader();
 	}
 
 	public int getColumnIndex() {

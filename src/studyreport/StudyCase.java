@@ -1,5 +1,6 @@
 package studyreport;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 import studyreport.had.HAD;
@@ -8,18 +9,18 @@ import studyreport.sf12.SF12;
 
 public class StudyCase {
 
-	private final String studyID;
+	private final int studyID;
 	private IBS ibs;
 	private SF12 sf12;
 	private HAD had;
 
 	//TODO add fodmaps
 
-	public StudyCase(String studyID) {
+	public StudyCase(int studyID) {
 		this.studyID = studyID;
 	}
 
-	public String getStudyID() {
+	public int getStudyID() {
 		return studyID;
 	}
 
@@ -47,6 +48,17 @@ public class StudyCase {
 		this.had = had;
 	}
 
+	public Object[] getReport() {
+		ArrayList<Object> report = new ArrayList<>();
+		report.add(getStudyID());
+		report.add(getIbs() == null ? Main.NOT_ENOUGH_DATA : getIbs().score());
+		report.add(getHad() == null ? Main.NOT_ENOUGH_DATA : getHad().a());
+		report.add(getHad() == null ? Main.NOT_ENOUGH_DATA : getHad().d());
+		report.add(getSf12() == null ? Main.NOT_ENOUGH_DATA : getSf12().sf12mToReport());
+		report.add(getSf12() == null ? Main.NOT_ENOUGH_DATA : getSf12().sf12pToReport());
+		return report.toArray();
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) {
@@ -56,7 +68,7 @@ public class StudyCase {
 			return false;
 		}
 		StudyCase studyCase = (StudyCase) o;
-		return studyID.equals(studyCase.studyID);
+		return studyID == studyCase.studyID;
 	}
 
 	@Override

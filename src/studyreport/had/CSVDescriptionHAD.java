@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.commons.csv.CSVFormat;
+
 import studyreport.sf12.AnswerSF12;
 
 public enum CSVDescriptionHAD {
@@ -15,6 +17,12 @@ public enum CSVDescriptionHAD {
 	CSVDescriptionHAD(int columnIndex, Class<? extends AnswerSF12> answer) {
 		this.columnIndex = columnIndex;
 		this.answer = answer;
+	}
+
+	public static CSVFormat getFormat() {
+		return CSVFormat.DEFAULT
+				.withHeader(CSVDescriptionHAD.class)
+				.withFirstRecordAsHeader();
 	}
 
 	public int getColumnIndex() {
