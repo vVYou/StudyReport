@@ -1,22 +1,30 @@
 package studyreport.had;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.apache.commons.csv.CSVFormat;
 
-import studyreport.sf12.AnswerSF12;
-
 public enum CSVDescriptionHAD {
-	STUDY_ID(0, null);
+	numero_d_identification(0, false),
+	had_1(1, true),
+	had_2(2, false),
+	had_3(3, true),
+	had_4(4, false),
+	had_5(5, true),
+	had_6(6, true),
+	had_7(7, false),
+	had_8(8, true),
+	had_9(9, false),
+	had_10(10, true),
+	had_11(11, true),
+	had_12(12, false),
+	had_13(13, true),
+	had_14(14, false);
 
 	int columnIndex;
-	Class<? extends AnswerSF12> answer;
+	boolean isReverseWeight;
 
-	CSVDescriptionHAD(int columnIndex, Class<? extends AnswerSF12> answer) {
+	CSVDescriptionHAD(int columnIndex, boolean isReverseWeight) {
 		this.columnIndex = columnIndex;
-		this.answer = answer;
+		this.isReverseWeight = isReverseWeight;
 	}
 
 	public static CSVFormat getFormat() {
@@ -29,13 +37,7 @@ public enum CSVDescriptionHAD {
 		return columnIndex;
 	}
 
-	public Class<? extends AnswerSF12> getAnswer() {
-		return answer;
-	}
-
-	public static List<CSVDescriptionHAD> getAllAnswerColumns() {
-		return Arrays.stream(values())
-				.filter(desc -> desc.getAnswer() != null)
-				.collect(Collectors.toList());
+	public boolean isReverseWeight() {
+		return isReverseWeight;
 	}
 }

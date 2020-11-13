@@ -77,7 +77,7 @@ public class Main {
 		FileReader fileReader = new FileReader(hadDataInputFile);
 		try (CSVParser formEntries = new CSVParser(fileReader, CSVDescriptionHAD.getFormat())) {
 			for (CSVRecord formEntry : formEntries) {
-				String studyId = formEntry.get(CSVDescriptionHAD.STUDY_ID.getColumnIndex());
+				String studyId = formEntry.get(CSVDescriptionHAD.numero_d_identification.getColumnIndex());
 				HAD had = HADCalculation.getHad(formEntry);
 				hads.put(studyId, had);
 			}
@@ -113,7 +113,7 @@ public class Main {
 
 	private static void initializeReport(String outputReportFile) throws IOException {
 		FileWriter fileWriter = new FileWriter(outputReportFile);
-		reportPrinter = new CSVPrinter(fileWriter, CSVFormat.DEFAULT);
+		reportPrinter = new CSVPrinter(fileWriter, CSVFormat.EXCEL);
 		Object[] headers = {"study_id",
 							IBSCalculation.HEADER,
 							HADCalculation.HEADER_A,
