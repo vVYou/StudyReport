@@ -1,3 +1,5 @@
 /dependencies/
 /.idea/
 /out/
+/src/.idea/workspace.xml
+/target/
