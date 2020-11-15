@@ -20,14 +20,11 @@ public class BristolReport {
     }
 
     public static BristolAnswer toObject(Class<? extends BristolAnswer> answerType, String value) {
-        if (answerType.isEnum()) {
-            return Arrays.stream(answerType.getEnumConstants())
-                    .filter(bristolAnswer -> bristolAnswer.getFormValue() == toInt(value))
-                    .map(BristolAnswer.class::cast)
-                    .findFirst()
-                    .orElse(new BristolFreetext(value));
-        }
-        return new BristolFreetext(value);
+        return Arrays.stream(answerType.getEnumConstants())
+                .filter(bristolAnswer -> bristolAnswer.getFormValue() == toInt(value))
+                .map(BristolAnswer.class::cast)
+                .findFirst()
+                .orElse(new BristolFreetext(value));
     }
 
     private static int toInt(String value) {

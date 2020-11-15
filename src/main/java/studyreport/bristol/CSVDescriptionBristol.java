@@ -1,7 +1,5 @@
 package studyreport.bristol;
 
-import studyreport.YES_NO;
-
 import java.util.Arrays;
 
 public enum CSVDescriptionBristol implements Comparable<CSVDescriptionBristol> {
@@ -21,9 +19,9 @@ public enum CSVDescriptionBristol implements Comparable<CSVDescriptionBristol> {
     v03_sellesmolles(13, Symptom.class),
     v03_diarrhee(14, Symptom.class),
     v03_fatigue(15, Symptom.class),
-    v03_transpi(16, Complete.class),
-    v03_vertiges(17, BristolFreetext.class),
-    v03_palpi(18, YES_NO.class),
+    v03_transpi(16, Symptom.class),
+    v03_vertiges(17, Symptom.class),
+    v03_palpi(18, Symptom.class),
     bsc(19, BSC.class);
 
     private final int columnId;
@@ -45,6 +43,4 @@ public enum CSVDescriptionBristol implements Comparable<CSVDescriptionBristol> {
     public Class<? extends BristolAnswer> getAnswerType() {
         return answerType;
     }
-
-
 }
