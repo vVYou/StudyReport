@@ -1,8 +1,12 @@
 package studyreport;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -30,13 +34,13 @@ public class Main {
 
 	private static CSVPrinter reportPrinter;
 
-	public static void main(String[] args) throws IOException {
-		String ibsDataInputFile = "D:\\studyreport\\testNov\\IBSSSS_M6.csv";
-		String sf12DataInputFile = "D:\\studyreport\\testNov\\SF12_M6.csv";
-		String hadDataInputFile = "D:\\studyreport\\testNov\\HAD_M6.csv";
-		//String forwardDataInputFile = "D:\\studyreport\\Data.csv";
+	public static void main(String[] args) throws IOException, URISyntaxException {
+		String ibsDataInputFile = "..\\data\\testnov\\IBSSSS.csv";
+		String sf12DataInputFile = "..\\data\\testnov\\SF12.csv";
+		String hadDataInputFile = "..\\data\\testnov\\HAD.csv";
+		//String forwardDataInputFile = "data\testnov\\Data.csv";
 
-		String outputReportFile = "D:\\studyreport\\testNov\\Report.csv";
+		String outputReportFile = "C:\\studyreport\\testNov\\Report.csv";
 
 		initializeReport(outputReportFile);
 		HashMap<String, IBS> ibss = parseIBS(ibsDataInputFile);
@@ -85,9 +89,10 @@ public class Main {
 		return hads;
 	}
 
-	private static HashMap<String, IBS> parseIBS(String ibsDataInputFile) throws IOException {
+	private static HashMap<String, IBS> parseIBS(String ibsDataInputFile) throws IOException, URISyntaxException {
 		HashMap<String, IBS> ibss = new HashMap<>();
-		FileReader fileReader = new FileReader(ibsDataInputFile);
+//		FileReader fileReader = new FileReader(ibsDataInputFile);
+		FileReader fileReader = new FileReader(new File(Main.class.getResource(ibsDataInputFile).toURI()));
 		try (CSVParser formEntries = new CSVParser(fileReader, CSVDescriptionIBS.getFormat())) {
 			for (CSVRecord formEntry : formEntries.getRecords()) {
 				String studyId = formEntry.get(CSVDescriptionIBS.numero_d_identification.getColumnIndex());
@@ -112,7 +117,7 @@ public class Main {
 	}
 
 	private static void initializeReport(String outputReportFile) throws IOException {
-		FileWriter fileWriter = new FileWriter(outputReportFile);
+		FileWriter fileWriter = new FileWriter(new File(outputReportFile), false);
 		reportPrinter = new CSVPrinter(fileWriter, CSVFormat.EXCEL);
 		Object[] headers = {"study_id",
 							IBSCalculation.HEADER,
