@@ -1,24 +1,9 @@
 package studyreport;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.TreeSet;
-import java.util.stream.Collectors;
-
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.CSVRecord;
-
 import studyreport.had.CSVDescriptionHAD;
 import studyreport.had.HAD;
 import studyreport.had.HADCalculation;
@@ -28,6 +13,18 @@ import studyreport.ibs.IBSCalculation;
 import studyreport.sf12.CSVDescriptionSF12;
 import studyreport.sf12.SF12;
 import studyreport.sf12.SF12Calculation;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.TreeSet;
 
 public class Main {
 	public static final String NOT_ENOUGH_DATA = " - ";
@@ -60,7 +57,7 @@ public class Main {
 
 		List<StudyCase> studyCases = new ArrayList<>();
 		for (String id : allStringIds) {
-			StudyCase studyCase = new StudyCase(Integer.valueOf(id));
+			StudyCase studyCase = new StudyCase(Integer.parseInt(id));
 			studyCase.setIbs(ibss.get(id));
 			studyCase.setSf12(sf12s.get(id));
 			studyCase.setHad(hads.get(id));
@@ -70,16 +67,13 @@ public class Main {
 		return studyCases;
 	}
 
-	private static TreeSet<Integer> toIntId(TreeSet<String> ids) {
-		return ids.stream()
-				.map(Integer::valueOf)
-				.collect(Collectors.toCollection(TreeSet::new));
+	private static FileReader getFileReader(String resourceFileName) throws FileNotFoundException, URISyntaxException {
+		return new FileReader(new File(Main.class.getResource(resourceFileName).toURI()));
 	}
 
-	private static HashMap<String, HAD> parseHAD(String hadDataInputFile) throws IOException {
+	private static HashMap<String, HAD> parseHAD(String hadDataInputFile) throws IOException, URISyntaxException {
 		HashMap<String, HAD> hads = new HashMap<>();
-		FileReader fileReader = new FileReader(hadDataInputFile);
-		try (CSVParser formEntries = new CSVParser(fileReader, CSVDescriptionHAD.getFormat())) {
+		try (CSVParser formEntries = new CSVParser(getFileReader(hadDataInputFile), CSVDescriptionHAD.getFormat())) {
 			for (CSVRecord formEntry : formEntries) {
 				String studyId = formEntry.get(CSVDescriptionHAD.numero_d_identification.getColumnIndex());
 				HAD had = HADCalculation.getHad(formEntry);
@@ -91,9 +85,7 @@ public class Main {
 
 	private static HashMap<String, IBS> parseIBS(String ibsDataInputFile) throws IOException, URISyntaxException {
 		HashMap<String, IBS> ibss = new HashMap<>();
-//		FileReader fileReader = new FileReader(ibsDataInputFile);
-		FileReader fileReader = new FileReader(new File(Main.class.getResource(ibsDataInputFile).toURI()));
-		try (CSVParser formEntries = new CSVParser(fileReader, CSVDescriptionIBS.getFormat())) {
+		try (CSVParser formEntries = new CSVParser(getFileReader(ibsDataInputFile), CSVDescriptionIBS.getFormat())) {
 			for (CSVRecord formEntry : formEntries.getRecords()) {
 				String studyId = formEntry.get(CSVDescriptionIBS.numero_d_identification.getColumnIndex());
 				IBS ibs = IBSCalculation.getIBS(formEntry);
@@ -103,10 +95,9 @@ public class Main {
 		return ibss;
 	}
 
-	private static HashMap<String, SF12> parseSF12(String sf12DataInputFile) throws IOException {
+	private static HashMap<String, SF12> parseSF12(String sf12DataInputFile) throws IOException, URISyntaxException {
 		HashMap<String, SF12> sf12s = new HashMap<>();
-		FileReader fileReader = new FileReader(sf12DataInputFile);
-		try (CSVParser formEntries = new CSVParser(fileReader, CSVDescriptionSF12.getFormat())) {
+		try (CSVParser formEntries = new CSVParser(getFileReader(sf12DataInputFile), CSVDescriptionSF12.getFormat())) {
 			for (CSVRecord formEntry : formEntries.getRecords()) {
 				String studyId = formEntry.get(CSVDescriptionSF12.numero_d_identification.getColumnIndex());
 				SF12 sf12 = SF12Calculation.getSF12(formEntry);

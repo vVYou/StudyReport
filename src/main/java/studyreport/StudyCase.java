@@ -1,11 +1,11 @@
 package studyreport;
 
-import java.util.ArrayList;
-import java.util.Objects;
-
 import studyreport.had.HAD;
 import studyreport.ibs.IBS;
 import studyreport.sf12.SF12;
+
+import java.util.ArrayList;
+import java.util.Objects;
 
 public class StudyCase {
 
@@ -54,8 +54,8 @@ public class StudyCase {
 		report.add(getIbs() == null ? Main.NOT_ENOUGH_DATA : getIbs().score());
 		report.add(getHad() == null ? Main.NOT_ENOUGH_DATA : getHad().a());
 		report.add(getHad() == null ? Main.NOT_ENOUGH_DATA : getHad().d());
-		report.add(getSf12() == null ? Main.NOT_ENOUGH_DATA : getSf12().sf12mToReport());
-		report.add(getSf12() == null ? Main.NOT_ENOUGH_DATA : getSf12().sf12pToReport());
+		report.add(getSf12() == null ? Main.NOT_ENOUGH_DATA : getSf12().sf12m());
+		report.add(getSf12() == null ? Main.NOT_ENOUGH_DATA : getSf12().sf12p());
 		return report.toArray();
 	}
 
