@@ -1,6 +1,6 @@
 package studyreport.had;
 
-public enum CSVDescriptionHAD {
+public enum HADCSVDescription {
 	numero_d_identification(0, false),
 	had_1(1, true),
 	had_2(2, false),
@@ -20,7 +20,7 @@ public enum CSVDescriptionHAD {
 	int columnId;
 	boolean isReverseWeight;
 
-	CSVDescriptionHAD(int columnId, boolean isReverseWeight) {
+	HADCSVDescription(int columnId, boolean isReverseWeight) {
 		this.columnId = columnId;
 		this.isReverseWeight = isReverseWeight;
 	}

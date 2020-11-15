@@ -17,8 +17,6 @@ public class StudyCase {
 	private HAD had;
 	private Bristol bristol;
 
-	//TODO add fodmaps
-
 	public StudyCase(int studyID) {
 		this.studyID = studyID;
 	}
@@ -61,15 +59,15 @@ public class StudyCase {
 
 	public Object[] getReport() {
 		ArrayList<Object> report = new ArrayList<>();
-		report.add(getStudyID()); //TODO Explore ways to generify the null check
-		report.add(getIbs() == null ? Main.NOT_ENOUGH_DATA : getIbs().score());
-		report.add(getHad() == null ? Main.NOT_ENOUGH_DATA : getHad().a());
-		report.add(getHad() == null ? Main.NOT_ENOUGH_DATA : getHad().d());
-		report.add(getSf12() == null ? Main.NOT_ENOUGH_DATA : getSf12().sf12m());
-		report.add(getSf12() == null ? Main.NOT_ENOUGH_DATA : getSf12().sf12p());
+		report.add(getStudyID());
+		report.add(getIbs() == null ? ScoreReport.NOT_ENOUGH_DATA : getIbs().score());
+		report.add(getHad() == null ? ScoreReport.NOT_ENOUGH_DATA : getHad().a());
+		report.add(getHad() == null ? ScoreReport.NOT_ENOUGH_DATA : getHad().d());
+		report.add(getSf12() == null ? ScoreReport.NOT_ENOUGH_DATA : getSf12().sf12m());
+		report.add(getSf12() == null ? ScoreReport.NOT_ENOUGH_DATA : getSf12().sf12p());
 		if (getBristol() != null) {
 			for (BristolAnswer answer : getBristol().getBristolAnswerMap().values()) {
-				report.add(answer == null ? Main.NOT_ENOUGH_DATA : answer.toReport());
+				report.add(answer == null ? ScoreReport.NOT_ENOUGH_DATA : answer.toReport());
 			}
 		}
 		return report.toArray();

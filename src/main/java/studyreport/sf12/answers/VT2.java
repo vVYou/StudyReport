@@ -1,10 +1,10 @@
 package studyreport.sf12.answers;
 
+import studyreport.sf12.SF12Answer;
+
 import java.math.BigDecimal;
 
-import studyreport.sf12.AnswerSF12;
-
-public enum VT2 implements AnswerSF12<VT2> {
+public enum VT2 implements SF12Answer<VT2> {
 	VT2_1("0", "0", 1),
 	VT2_2("-0.42251", "-0.92057", 2),
 	VT2_3("-1.14387", "-1.65178", 3),

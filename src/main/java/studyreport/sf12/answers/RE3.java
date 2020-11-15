@@ -1,10 +1,10 @@
 package studyreport.sf12.answers;
 
+import studyreport.sf12.SF12Answer;
+
 import java.math.BigDecimal;
 
-import studyreport.sf12.AnswerSF12;
-
-public enum RE3 implements AnswerSF12<RE3> {
+public enum RE3 implements SF12Answer<RE3> {
 	RE3_1("2.32091", "-5.69921", 1),
 	RE3_2("0", "0", 2);
 

@@ -9,8 +9,8 @@ public class HADCalculation {
     public static HAD getHad(CSVRecord formEntry) {
         int hada = 0;
         int hadd = 0;
-        for (CSVDescriptionHAD csvEntry : CSVDescriptionHAD.values()) {
-            if (csvEntry != CSVDescriptionHAD.numero_d_identification) {
+        for (HADCSVDescription csvEntry : HADCSVDescription.values()) {
+            if (csvEntry != HADCSVDescription.numero_d_identification) {
                 int entry = toInt(formEntry.get(csvEntry));
                 int score = toScore(entry, csvEntry.isReverseWeight());
                 if (csvEntry.getColumnId() % 2 == 0) {

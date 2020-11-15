@@ -8,9 +8,9 @@ import java.util.TreeMap;
 public class BristolReport {
 
     public static Bristol toBristol(CSVRecord formEntry) {
-        TreeMap<CSVDescriptionBristol, BristolAnswer> bristolAnswerMap = new TreeMap<>();
-        for (CSVDescriptionBristol csvEntry : CSVDescriptionBristol.values()) {
-            if (csvEntry != CSVDescriptionBristol.numero_d_identification) {
+        TreeMap<BristolCSVDescription, BristolAnswer> bristolAnswerMap = new TreeMap<>();
+        for (BristolCSVDescription csvEntry : BristolCSVDescription.values()) {
+            if (csvEntry != BristolCSVDescription.numero_d_identification) {
                 String value = formEntry.get(csvEntry);
                 bristolAnswerMap.put(csvEntry, toObject(csvEntry.getAnswerType(), value));
             }

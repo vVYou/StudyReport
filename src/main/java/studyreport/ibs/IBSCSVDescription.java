@@ -1,6 +1,6 @@
 package studyreport.ibs;
 
-public enum CSVDescriptionIBS {
+public enum IBSCSVDescription {
 	numero_d_identification(0),
 	ibs_sss_1_a(1),
 	ibs_sss_1_b(2),
@@ -12,7 +12,7 @@ public enum CSVDescriptionIBS {
 
 	int columnId;
 
-	CSVDescriptionIBS(int columnId) {
+	IBSCSVDescription(int columnId) {
 		this.columnId = columnId;
 	}
 

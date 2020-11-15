@@ -5,16 +5,16 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.CSVRecord;
 import studyreport.bristol.Bristol;
+import studyreport.bristol.BristolCSVDescription;
 import studyreport.bristol.BristolReport;
-import studyreport.bristol.CSVDescriptionBristol;
-import studyreport.had.CSVDescriptionHAD;
 import studyreport.had.HAD;
+import studyreport.had.HADCSVDescription;
 import studyreport.had.HADCalculation;
-import studyreport.ibs.CSVDescriptionIBS;
 import studyreport.ibs.IBS;
+import studyreport.ibs.IBSCSVDescription;
 import studyreport.ibs.IBSCalculation;
-import studyreport.sf12.CSVDescriptionSF12;
 import studyreport.sf12.SF12;
+import studyreport.sf12.SF12CSVDescription;
 import studyreport.sf12.SF12Calculation;
 
 import java.io.File;
@@ -32,7 +32,7 @@ import java.util.Map;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
-public class Main {
+public class ScoreReport {
     public static final String NOT_ENOUGH_DATA = " - ";
 
     private static CSVPrinter reportPrinter;
@@ -57,7 +57,6 @@ public class Main {
         reportPrinter.close();
     }
 
-    //TODO convert to stream
     private static List<StudyCase> merge(Map<String, IBS> ibs, Map<String, SF12> sf12, Map<String, HAD> had, Map<String, Bristol> bristol) {
         List<StudyCase> studyCases = new ArrayList<>();
         for (String id : getIds(ibs, sf12, had, bristol)) {
@@ -79,14 +78,14 @@ public class Main {
     }
 
     private static FileReader getFileReader(String resourceFileName) throws FileNotFoundException, URISyntaxException {
-        return new FileReader(new File(Main.class.getResource(resourceFileName).toURI()));
+        return new FileReader(new File(ScoreReport.class.getResource(resourceFileName).toURI()));
     }
 
     private static Map<String, HAD> parseHAD(String hadDataInputFile) throws IOException, URISyntaxException {
         HashMap<String, HAD> had = new HashMap<>();
-        try (CSVParser formEntries = new CSVParser(getFileReader(hadDataInputFile), getFormat(CSVDescriptionHAD.class))) {
+        try (CSVParser formEntries = new CSVParser(getFileReader(hadDataInputFile), getFormat(HADCSVDescription.class))) {
             for (CSVRecord formEntry : formEntries) {
-                String studyId = formEntry.get(CSVDescriptionHAD.numero_d_identification.getColumnId());
+                String studyId = formEntry.get(HADCSVDescription.numero_d_identification.getColumnId());
                 had.put(studyId, HADCalculation.getHad(formEntry));
             }
         }
@@ -95,9 +94,9 @@ public class Main {
 
     private static Map<String, IBS> parseIBS(String ibsDataInputFile) throws IOException, URISyntaxException {
         HashMap<String, IBS> ibs = new HashMap<>();
-        try (CSVParser formEntries = new CSVParser(getFileReader(ibsDataInputFile), getFormat(CSVDescriptionIBS.class))) {
+        try (CSVParser formEntries = new CSVParser(getFileReader(ibsDataInputFile), getFormat(IBSCSVDescription.class))) {
             for (CSVRecord formEntry : formEntries.getRecords()) {
-                String studyId = formEntry.get(CSVDescriptionIBS.numero_d_identification.getColumnId());
+                String studyId = formEntry.get(IBSCSVDescription.numero_d_identification.getColumnId());
                 ibs.put(studyId, IBSCalculation.getIBS(formEntry));
             }
         }
@@ -106,9 +105,9 @@ public class Main {
 
     private static Map<String, SF12> parseSF12(String sf12DataInputFile) throws IOException, URISyntaxException {
         HashMap<String, SF12> sf12 = new HashMap<>();
-        try (CSVParser formEntries = new CSVParser(getFileReader(sf12DataInputFile), getFormat(CSVDescriptionSF12.class))) {
+        try (CSVParser formEntries = new CSVParser(getFileReader(sf12DataInputFile), getFormat(SF12CSVDescription.class))) {
             for (CSVRecord formEntry : formEntries.getRecords()) {
-                String studyId = formEntry.get(CSVDescriptionSF12.numero_d_identification.getColumnId());
+                String studyId = formEntry.get(SF12CSVDescription.numero_d_identification.getColumnId());
                 sf12.put(studyId, SF12Calculation.getSF12(formEntry));
             }
         }
@@ -117,9 +116,9 @@ public class Main {
 
     private static Map<String, Bristol> parseBristol(String bristolAnswer) throws IOException, URISyntaxException {
         HashMap<String, Bristol> bristol = new HashMap<>();
-        try (CSVParser formEntries = new CSVParser(getFileReader(bristolAnswer), getFormat(CSVDescriptionBristol.class))) {
+        try (CSVParser formEntries = new CSVParser(getFileReader(bristolAnswer), getFormat(BristolCSVDescription.class))) {
             for (CSVRecord formEntry : formEntries.getRecords()) {
-                String studyId = formEntry.get(CSVDescriptionBristol.numero_d_identification.getColumnId());
+                String studyId = formEntry.get(BristolCSVDescription.numero_d_identification.getColumnId());
                 bristol.put(studyId, BristolReport.toBristol(formEntry));
             }
         }
@@ -137,7 +136,7 @@ public class Main {
                 HADCalculation.HEADER_D,
                 SF12Calculation.HEADER_M,
                 SF12Calculation.HEADER_P));
-        headers.addAll(Arrays.asList(CSVDescriptionBristol.getReportHeader()));
+        headers.addAll(Arrays.asList(BristolCSVDescription.getReportHeader()));
 
         reportPrinter.printRecord(headers.toArray());
     }
