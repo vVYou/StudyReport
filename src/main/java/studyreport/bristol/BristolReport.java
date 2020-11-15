@@ -12,15 +12,14 @@ public class BristolReport {
         for (CSVDescriptionBristol csvEntry : CSVDescriptionBristol.values()) {
             if (csvEntry != CSVDescriptionBristol.numero_d_identification) {
                 String value = formEntry.get(csvEntry);
-                bristolAnswerMap.put(csvEntry, toObject(csvEntry, value));
+                bristolAnswerMap.put(csvEntry, toObject(csvEntry.getAnswerType(), value));
             }
         }
 
         return new Bristol(bristolAnswerMap);
     }
 
-    public static BristolAnswer toObject(CSVDescriptionBristol csvEntry, String value) {
-        Class<? extends BristolAnswer> answerType = csvEntry.getAnswerType();
+    public static BristolAnswer toObject(Class<? extends BristolAnswer> answerType, String value) {
         if (answerType.isEnum()) {
             return Arrays.stream(answerType.getEnumConstants())
                     .filter(bristolAnswer -> bristolAnswer.getFormValue() == toInt(value))

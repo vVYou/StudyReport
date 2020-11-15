@@ -41,7 +41,7 @@ public class Main {
         String ibsDataInputFile = "..\\data\\testnov\\IBSSSS.csv";
         String sf12DataInputFile = "..\\data\\testnov\\SF12.csv";
         String hadDataInputFile = "..\\data\\testnov\\HAD.csv";
-        String bristolDataInputFile = "data\testnov\\SYMPT_BRISTOL.csv";
+        String bristolDataInputFile = "..\\data\\testnov\\SYMPT_BRISTOL.csv";
 
         String outputReportFile = "C:\\studyreport\\testNov\\Report.csv";
 
