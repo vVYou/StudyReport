@@ -1,11 +1,5 @@
 package studyreport.sf12;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.apache.commons.csv.CSVFormat;
-
 import studyreport.sf12.answers.BP2;
 import studyreport.sf12.answers.GH1;
 import studyreport.sf12.answers.MH3;
@@ -18,6 +12,10 @@ import studyreport.sf12.answers.RP2;
 import studyreport.sf12.answers.RP3;
 import studyreport.sf12.answers.SF2;
 import studyreport.sf12.answers.VT2;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public enum CSVDescriptionSF12 {
 	numero_d_identification(0, null),
@@ -34,22 +32,16 @@ public enum CSVDescriptionSF12 {
 	sf12_1_6_c(11, MH4.class),
 	sf12_1_7(12, SF2.class);
 
-	int columnIndex;
+	int columnId;
 	Class<? extends AnswerSF12> answer;
 
-	CSVDescriptionSF12(int columnIndex, Class<? extends AnswerSF12> answer) {
-		this.columnIndex = columnIndex;
+	CSVDescriptionSF12(int columnId, Class<? extends AnswerSF12> answer) {
+		this.columnId = columnId;
 		this.answer = answer;
 	}
 
-	public static CSVFormat getFormat() {
-		return CSVFormat.DEFAULT
-				.withHeader(CSVDescriptionSF12.class)
-				.withFirstRecordAsHeader();
-	}
-
-	public int getColumnIndex() {
-		return columnIndex;
+	public int getColumnId() {
+		return columnId;
 	}
 
 	public Class<? extends AnswerSF12> getAnswer() {

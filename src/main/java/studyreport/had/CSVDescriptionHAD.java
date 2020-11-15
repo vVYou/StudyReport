@@ -1,7 +1,5 @@
 package studyreport.had;
 
-import org.apache.commons.csv.CSVFormat;
-
 public enum CSVDescriptionHAD {
 	numero_d_identification(0, false),
 	had_1(1, true),
@@ -19,22 +17,16 @@ public enum CSVDescriptionHAD {
 	had_13(13, true),
 	had_14(14, false);
 
-	int columnIndex;
+	int columnId;
 	boolean isReverseWeight;
 
-	CSVDescriptionHAD(int columnIndex, boolean isReverseWeight) {
-		this.columnIndex = columnIndex;
+	CSVDescriptionHAD(int columnId, boolean isReverseWeight) {
+		this.columnId = columnId;
 		this.isReverseWeight = isReverseWeight;
 	}
 
-	public static CSVFormat getFormat() {
-		return CSVFormat.DEFAULT
-				.withHeader(CSVDescriptionHAD.class)
-				.withFirstRecordAsHeader();
-	}
-
-	public int getColumnIndex() {
-		return columnIndex;
+	public int getColumnId() {
+		return columnId;
 	}
 
 	public boolean isReverseWeight() {

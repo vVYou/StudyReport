@@ -1,5 +1,7 @@
 package studyreport;
 
+import studyreport.bristol.Bristol;
+import studyreport.bristol.BristolAnswer;
 import studyreport.had.HAD;
 import studyreport.ibs.IBS;
 import studyreport.sf12.SF12;
@@ -13,6 +15,7 @@ public class StudyCase {
 	private IBS ibs;
 	private SF12 sf12;
 	private HAD had;
+	private Bristol bristol;
 
 	//TODO add fodmaps
 
@@ -48,16 +51,30 @@ public class StudyCase {
 		this.had = had;
 	}
 
+	public Bristol getBristol() {
+		return bristol;
+	}
+
+	public void setBristol(Bristol bristol) {
+		this.bristol = bristol;
+	}
+
 	public Object[] getReport() {
 		ArrayList<Object> report = new ArrayList<>();
-		report.add(getStudyID());
+		report.add(getStudyID()); //TODO Explore ways to generify the null check
 		report.add(getIbs() == null ? Main.NOT_ENOUGH_DATA : getIbs().score());
 		report.add(getHad() == null ? Main.NOT_ENOUGH_DATA : getHad().a());
 		report.add(getHad() == null ? Main.NOT_ENOUGH_DATA : getHad().d());
 		report.add(getSf12() == null ? Main.NOT_ENOUGH_DATA : getSf12().sf12m());
 		report.add(getSf12() == null ? Main.NOT_ENOUGH_DATA : getSf12().sf12p());
+		if (getBristol() != null) {
+			for (BristolAnswer answer : getBristol().getBristolAnswerMap().values()) {
+				report.add(answer == null ? Main.NOT_ENOUGH_DATA : answer);
+			}
+		}
 		return report.toArray();
 	}
+
 
 	@Override
 	public boolean equals(Object o) {

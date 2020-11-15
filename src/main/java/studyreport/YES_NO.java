@@ -1,6 +1,8 @@
-package studyreport.ibs;
+package studyreport;
 
-public enum YES_NO {
+import studyreport.bristol.BristolAnswer;
+
+public enum YES_NO implements BristolAnswer {
 	YES(1),
 	NO(0);
 

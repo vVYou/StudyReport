@@ -1,11 +1,11 @@
 package studyreport.sf12;
 
+import org.apache.commons.csv.CSVRecord;
+
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.function.Function;
-
-import org.apache.commons.csv.CSVRecord;
 
 public class SF12Calculation {
 
@@ -29,7 +29,7 @@ public class SF12Calculation {
 	}
 
 	private static Integer getFormAnswer(CSVRecord formEntry, CSVDescriptionSF12 desc) {
-		String formAnswer = formEntry.get(desc.getColumnIndex());
+		String formAnswer = formEntry.get(desc.getColumnId());
 		return formAnswer.matches("[0-9]") ? Integer.valueOf(formAnswer) : Integer.MAX_VALUE;
 	}
 

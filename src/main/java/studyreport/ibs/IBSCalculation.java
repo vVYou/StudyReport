@@ -1,6 +1,7 @@
 package studyreport.ibs;
 
 import org.apache.commons.csv.CSVRecord;
+import studyreport.YES_NO;
 
 public class IBSCalculation {
 	public static final String HEADER = "ibs_sss";
