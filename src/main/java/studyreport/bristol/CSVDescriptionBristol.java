@@ -2,6 +2,8 @@ package studyreport.bristol;
 
 import studyreport.YES_NO;
 
+import java.util.Arrays;
+
 public enum CSVDescriptionBristol implements Comparable<CSVDescriptionBristol> {
     numero_d_identification(0, null),
     v03_nausee(1, Symptomes.class),
@@ -25,19 +27,23 @@ public enum CSVDescriptionBristol implements Comparable<CSVDescriptionBristol> {
     bsc(19, BSC.class);
 
     private final int columnId;
-    private final Class<? extends BristolAnswer> answer;
+    private final Class<? extends BristolAnswer> answerType;
 
-    CSVDescriptionBristol(int columnId, Class<? extends BristolAnswer> answer) {
+    CSVDescriptionBristol(int columnId, Class<? extends BristolAnswer> answerType) {
         this.columnId = columnId;
-        this.answer = answer;
+        this.answerType = answerType;
+    }
+
+    public static CSVDescriptionBristol[] getReportHeader() {
+        return Arrays.copyOfRange(values(), 1, values().length);
     }
 
     public int getColumnId() {
         return columnId;
     }
 
-    public Class<? extends BristolAnswer> getAnswer() {
-        return answer;
+    public Class<? extends BristolAnswer> getAnswerType() {
+        return answerType;
     }
 
 

@@ -12,6 +12,7 @@ public enum YES_NO implements BristolAnswer {
 		this.formValue = formValue;
 	}
 
+	@Override
 	public int getFormValue() {
 		return formValue;
 	}

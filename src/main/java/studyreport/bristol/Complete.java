@@ -5,9 +5,14 @@ public enum Complete implements BristolAnswer {
     UNVERIFIED(1),
     COMPLETE(2);
 
-    private final int answer;
+    private final int formValue;
 
-    Complete(int answer) {
-        this.answer = answer;
+    Complete(int formValue) {
+        this.formValue = formValue;
+    }
+
+    @Override
+    public int getFormValue() {
+        return formValue;
     }
 }

@@ -15,4 +15,10 @@ public class BristolFreetext implements BristolAnswer {
     public void setFreeText(String freeText) {
         this.freeText = freeText;
     }
+
+
+    @Override
+    public int getFormValue() {
+        return 0;
+    }
 }

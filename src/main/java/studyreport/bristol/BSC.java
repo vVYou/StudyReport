@@ -9,9 +9,15 @@ public enum BSC implements BristolAnswer {
     TYPE_6(6),
     TYPE_7(7);
 
-    private final int answer;
+    private final int formValue;
 
-    BSC(int answer) {
-        this.answer = answer;
+    BSC(int formValue) {
+        this.formValue = formValue;
     }
+
+    @Override
+    public int getFormValue() {
+        return formValue;
+    }
+
 }

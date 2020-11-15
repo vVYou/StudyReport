@@ -129,14 +129,17 @@ public class Main {
     private static void initializeReport(String outputReportFile) throws IOException {
         FileWriter fileWriter = new FileWriter(new File(outputReportFile), false);
         reportPrinter = new CSVPrinter(fileWriter, CSVFormat.EXCEL);
-        Object[] headers = {"study_id",
+
+        List<Object> headers = new ArrayList<>();
+        headers.addAll(Arrays.asList("study_id",
                 IBSCalculation.HEADER,
                 HADCalculation.HEADER_A,
                 HADCalculation.HEADER_D,
                 SF12Calculation.HEADER_M,
-                SF12Calculation.HEADER_P};
-        //TODO add data report header
-        reportPrinter.printRecord(headers);
+                SF12Calculation.HEADER_P));
+        headers.addAll(Arrays.asList(CSVDescriptionBristol.getReportHeader()));
+
+        reportPrinter.printRecord(headers.toArray());
     }
 
     private static void writeReport(List<StudyCase> studyCases) throws IOException {

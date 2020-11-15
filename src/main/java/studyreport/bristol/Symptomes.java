@@ -8,10 +8,15 @@ public enum Symptomes implements BristolAnswer {
     SEVERE(4),
     VERY_SERVERE(5);
 
+    private final int formValue;
 
-    private final int answer;
+    Symptomes(int formValue) {
+        this.formValue = formValue;
+    }
 
-    Symptomes(int answer) {
-        this.answer = answer;
+
+    @Override
+    public int getFormValue() {
+        return formValue;
     }
 }
