@@ -23,6 +23,7 @@ public enum Symptom implements BristolAnswer {
 
     @Override
     public String toReport() {
-        return frenchTranslation;
+//        return frenchTranslation;
+        return "" + formValue;
     }
 }
