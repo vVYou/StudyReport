@@ -3,13 +3,15 @@ package studyreport;
 import studyreport.bristol.BristolAnswer;
 
 public enum YES_NO implements BristolAnswer {
-	YES(1),
-	NO(0);
+	YES(1, "oui"),
+	NO(0, "non");
 
-	final int formValue;
+	private final int formValue;
+	private final String frenchTranslation;
 
-	YES_NO(int formValue) {
+	YES_NO(int formValue, String frenchTranslation) {
 		this.formValue = formValue;
+		this.frenchTranslation = frenchTranslation;
 	}
 
 	@Override
@@ -28,5 +30,10 @@ public enum YES_NO implements BristolAnswer {
 			}
 		}
 		return NO;
+	}
+
+	@Override
+	public String toReport() {
+		return frenchTranslation;
 	}
 }

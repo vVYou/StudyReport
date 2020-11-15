@@ -21,4 +21,9 @@ public class BristolFreetext implements BristolAnswer {
     public int getFormValue() {
         return 0;
     }
+
+    @Override
+    public String toReport() {
+        return freeText;
+    }
 }

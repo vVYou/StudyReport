@@ -69,7 +69,7 @@ public class StudyCase {
 		report.add(getSf12() == null ? Main.NOT_ENOUGH_DATA : getSf12().sf12p());
 		if (getBristol() != null) {
 			for (BristolAnswer answer : getBristol().getBristolAnswerMap().values()) {
-				report.add(answer == null ? Main.NOT_ENOUGH_DATA : answer);
+				report.add(answer == null ? Main.NOT_ENOUGH_DATA : answer.toReport());
 			}
 		}
 		return report.toArray();

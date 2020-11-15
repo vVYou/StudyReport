@@ -20,4 +20,8 @@ public enum BSC implements BristolAnswer {
         return formValue;
     }
 
+    @Override
+    public String toReport() {
+        return toString().toLowerCase();
+    }
 }
