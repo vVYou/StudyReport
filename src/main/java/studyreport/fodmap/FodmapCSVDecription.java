@@ -14,19 +14,19 @@ public enum FodmapCSVDecription {
     diet_food_999_b(10, FodmapAnswer.OTHER, new FodmapGroup[]{}, ""),
     diet_food_a_001(11, FodmapAnswer.FOOD, new FodmapGroup[]{FodmapGroup.FRUCTANES}, "Semoule de blé (couscous), ou boulghour de blé"),
     diet_food_a_002(12, FodmapAnswer.FOOD, new FodmapGroup[]{FodmapGroup.FRUCTANES}, "Son de blé"),
-    diet_food_a_003(13, FodmapAnswer.FOOD, new FodmapGroup[]{FodmapGroup.FRUCTANES}, "Pain/ baguette à base de farine de blé ou de froment (blanc ou complet)"),
+    diet_food_a_003(13, FodmapAnswer.FOOD, new FodmapGroup[]{FodmapGroup.FRUCTANES, FodmapGroup.GLACTANES}, "Pain/ baguette à base de farine de blé ou de froment (blanc ou complet)"),
     diet_food_a_004(14, FodmapAnswer.FOOD, new FodmapGroup[]{FodmapGroup.FRUCTANES}, "Biscottes (à base de farine de blé)"),
     diet_food_a_005(15, FodmapAnswer.FOOD, new FodmapGroup[]{FodmapGroup.FRUCTANES}, "Pain/ baguette à base de farine de seigle"),
     diet_food_a_006(16, FodmapAnswer.FOOD, new FodmapGroup[]{FodmapGroup.FRUCTANES}, "Corn flakes"),
     diet_food_a_007(17, FodmapAnswer.FOOD, new FodmapGroup[]{FodmapGroup.FRUCTANES}, "Pâtes (à base de farine de blé)"),
     diet_food_a_008(18, FodmapAnswer.FOOD, new FodmapGroup[]{FodmapGroup.FRUCTANES}, "o\tArtichaut"),
     diet_food_a_009(19, FodmapAnswer.FOOD, new FodmapGroup[]{FodmapGroup.FRUCTANES}, "o\tAsperge"),
-    diet_food_a_010(20, FodmapAnswer.FOOD, new FodmapGroup[]{FodmapGroup.FRUCTANES}, "o\tBetterave"),
+    diet_food_a_010(20, FodmapAnswer.FOOD, new FodmapGroup[]{FodmapGroup.FRUCTANES, FodmapGroup.GLACTANES}, "o\tBetterave"),
     diet_food_a_011(21, FodmapAnswer.FOOD, new FodmapGroup[]{FodmapGroup.FRUCTANES}, "o\tBrocolis"),
     diet_food_a_012(22, FodmapAnswer.FOOD, new FodmapGroup[]{FodmapGroup.FRUCTANES}, "o\tChoux de Bruxelles"),
-    diet_food_a_013(23, FodmapAnswer.FOOD, new FodmapGroup[]{}, ""),
+    diet_food_a_013(23, FodmapAnswer.FOOD, new FodmapGroup[]{FodmapGroup.GLACTANES}, "o\tButternut"),
     diet_food_a_014(24, FodmapAnswer.FOOD, new FodmapGroup[]{}, ""),
-    diet_food_a_015(25, FodmapAnswer.FOOD, new FodmapGroup[]{FodmapGroup.FRUCTANES}, "o\tChou rouge"),
+    diet_food_a_015(25, FodmapAnswer.FOOD, new FodmapGroup[]{FodmapGroup.FRUCTANES, FodmapGroup.GLACTANES}, "o\tChou rouge"),
     diet_food_a_016(26, FodmapAnswer.FOOD, new FodmapGroup[]{}, ""),
     diet_food_a_017(27, FodmapAnswer.FOOD, new FodmapGroup[]{}, ""),
     diet_food_a_018(28, FodmapAnswer.FOOD, new FodmapGroup[]{}, ""),
@@ -36,19 +36,19 @@ public enum FodmapCSVDecription {
     diet_food_a_022(32, FodmapAnswer.FOOD, new FodmapGroup[]{FodmapGroup.FRUCTANES}, "o\tFenouil"),
     diet_food_a_023(33, FodmapAnswer.FOOD, new FodmapGroup[]{FodmapGroup.FRUCTANES}, "o\tAil"),
     diet_food_a_024(34, FodmapAnswer.FOOD, new FodmapGroup[]{FodmapGroup.FRUCTANES}, "o\tPoireaux"),
-    diet_food_a_025(35, FodmapAnswer.FOOD, new FodmapGroup[]{FodmapGroup.FRUCTANES}, "o\tPois mange-tout"),
+    diet_food_a_025(35, FodmapAnswer.FOOD, new FodmapGroup[]{FodmapGroup.FRUCTANES, FodmapGroup.GLACTANES}, "o\tPois mange-tout"),
     diet_food_a_026(36, FodmapAnswer.FOOD, new FodmapGroup[]{FodmapGroup.FRUCTANES}, "o\tChampignons"),
     diet_food_a_027(37, FodmapAnswer.FOOD, new FodmapGroup[]{FodmapGroup.FRUCTANES}, "o\tEchalotes"),
-    diet_food_a_028(38, FodmapAnswer.FOOD, new FodmapGroup[]{FodmapGroup.FRUCTANES}, "o\tOignons rouges ou blanc"),
-    diet_food_a_029(39, FodmapAnswer.FOOD, new FodmapGroup[]{}, ""),
+    diet_food_a_028(38, FodmapAnswer.FOOD, new FodmapGroup[]{FodmapGroup.FRUCTANES, FodmapGroup.GLACTANES}, "o\tOignons rouges ou blanc"),
+    diet_food_a_029(39, FodmapAnswer.FOOD, new FodmapGroup[]{FodmapGroup.GLACTANES}, "o\tPetits pois"),
     diet_food_a_030(40, FodmapAnswer.FOOD, new FodmapGroup[]{}, ""),
     diet_food_a_031(41, FodmapAnswer.FOOD, new FodmapGroup[]{}, ""),
     diet_food_a_032(42, FodmapAnswer.FOOD, new FodmapGroup[]{}, ""),
-    diet_food_a_033(43, FodmapAnswer.FOOD, new FodmapGroup[]{FodmapGroup.FRUCTANES}, "o\tHaricots rouges"),
-    diet_food_a_034(44, FodmapAnswer.FOOD, new FodmapGroup[]{}, ""),
-    diet_food_a_035(45, FodmapAnswer.FOOD, new FodmapGroup[]{}, ""),
-    diet_food_a_036(46, FodmapAnswer.FOOD, new FodmapGroup[]{FodmapGroup.FRUCTANES}, "o\tFalafels"),
-    diet_food_a_037(47, FodmapAnswer.FOOD, new FodmapGroup[]{FodmapGroup.FRUCTANES}, "o\tPois cassé"),
+    diet_food_a_033(43, FodmapAnswer.FOOD, new FodmapGroup[]{FodmapGroup.FRUCTANES, FodmapGroup.GLACTANES}, "o\tHaricots rouges"),
+    diet_food_a_034(44, FodmapAnswer.FOOD, new FodmapGroup[]{FodmapGroup.GLACTANES}, "o\tHaricots blancs"),
+    diet_food_a_035(45, FodmapAnswer.FOOD, new FodmapGroup[]{FodmapGroup.GLACTANES}, "o\tPois chiches"),
+    diet_food_a_036(46, FodmapAnswer.FOOD, new FodmapGroup[]{FodmapGroup.FRUCTANES, FodmapGroup.GLACTANES}, "o\tFalafels"),
+    diet_food_a_037(47, FodmapAnswer.FOOD, new FodmapGroup[]{FodmapGroup.FRUCTANES, FodmapGroup.GLACTANES}, "o\tPois cassé"),
     diet_food_a_038(48, FodmapAnswer.FOOD, new FodmapGroup[]{}, ""),
     diet_food_a_039(49, FodmapAnswer.FOOD, new FodmapGroup[]{}, ""),
     diet_food_a_040(50, FodmapAnswer.FOOD, new FodmapGroup[]{FodmapGroup.FRUCTANES}, "o\tAbricots"),
@@ -89,15 +89,15 @@ public enum FodmapCSVDecription {
     diet_food_a_075(85, FodmapAnswer.FOOD, new FodmapGroup[]{FodmapGroup.FRUCTANES}, "o\tBonbons"),
     diet_food_a_076(86, FodmapAnswer.FOOD, new FodmapGroup[]{}, ""),
     diet_food_a_077(87, FodmapAnswer.FOOD, new FodmapGroup[]{FodmapGroup.FRUCTANES}, "o\tSucre de coco"),
-    diet_food_a_078(88, FodmapAnswer.FOOD, new FodmapGroup[]{FodmapGroup.FRUCTANES}, "o\tHoumous"),
+    diet_food_a_078(88, FodmapAnswer.FOOD, new FodmapGroup[]{FodmapGroup.FRUCTANES, FodmapGroup.GLACTANES}, "o\tHoumous"),
     diet_food_a_079(89, FodmapAnswer.FOOD, new FodmapGroup[]{}, ""),
     diet_food_a_080(90, FodmapAnswer.FOOD, new FodmapGroup[]{FodmapGroup.FRUCTANES}, "o\tKetchup"),
     diet_food_a_081(91, FodmapAnswer.FOOD, new FodmapGroup[]{FodmapGroup.FRUCTANES}, "o\tPickels (cornichons)"),
     diet_food_a_082(92, FodmapAnswer.FOOD, new FodmapGroup[]{FodmapGroup.FRUCTANES}, "o\tCookies"),
     diet_food_a_083(93, FodmapAnswer.FOOD, new FodmapGroup[]{FodmapGroup.FRUCTANES}, "o\tSablés"),
-    diet_food_a_084(94, FodmapAnswer.FOOD, new FodmapGroup[]{}, ""),
-    diet_food_a_085(95, FodmapAnswer.FOOD, new FodmapGroup[]{FodmapGroup.FRUCTANES}, "o\tNoix de cajou"),
-    diet_food_a_086(96, FodmapAnswer.FOOD, new FodmapGroup[]{FodmapGroup.FRUCTANES}, "o\tPistaches"),
+    diet_food_a_084(94, FodmapAnswer.FOOD, new FodmapGroup[]{FodmapGroup.GLACTANES}, "o\tAmandes"),
+    diet_food_a_085(95, FodmapAnswer.FOOD, new FodmapGroup[]{FodmapGroup.FRUCTANES, FodmapGroup.GLACTANES}, "o\tNoix de cajou"),
+    diet_food_a_086(96, FodmapAnswer.FOOD, new FodmapGroup[]{FodmapGroup.FRUCTANES, FodmapGroup.GLACTANES}, "o\tPistaches"),
     diet_food_a_087(97, FodmapAnswer.FOOD, new FodmapGroup[]{}, ""),
     diet_food_a_088(98, FodmapAnswer.FOOD, new FodmapGroup[]{}, ""),
     diet_food_a_089(99, FodmapAnswer.FOOD, new FodmapGroup[]{}, ""),
@@ -112,9 +112,9 @@ public enum FodmapCSVDecription {
     diet_food_a_098(108, FodmapAnswer.FOOD, new FodmapGroup[]{FodmapGroup.FRUCTANES}, "o\tLait de coco"),
     diet_food_a_099(109, FodmapAnswer.FOOD, new FodmapGroup[]{}, ""),
     diet_food_a_100(110, FodmapAnswer.FOOD, new FodmapGroup[]{FodmapGroup.FRUCTANES}, "o\tLait d’avoine"),
-    diet_food_a_101(111, FodmapAnswer.FOOD, new FodmapGroup[]{}, ""),
+    diet_food_a_101(111, FodmapAnswer.FOOD, new FodmapGroup[]{FodmapGroup.GLACTANES}, "o\tLait de soja"),
     diet_food_a_102(112, FodmapAnswer.FOOD, new FodmapGroup[]{}, ""),
-    diet_food_a_103(113, FodmapAnswer.FOOD, new FodmapGroup[]{FodmapGroup.FRUCTANES}, "o\tTofu soyeux");
+    diet_food_a_103(113, FodmapAnswer.FOOD, new FodmapGroup[]{FodmapGroup.FRUCTANES, FodmapGroup.GLACTANES}, "o\tTofu soyeux");
 
     private final int columnId;
     private final FodmapAnswer type; //freeText, DietFood, ?
@@ -127,5 +127,21 @@ public enum FodmapCSVDecription {
         this.type = type;
         this.groups = groups;
         this.frenchTranslation = frenchTranslation;
+    }
+
+    public int getColumnId() {
+        return columnId;
+    }
+
+    public FodmapAnswer getType() {
+        return type;
+    }
+
+    public FodmapGroup[] getGroups() {
+        return groups;
+    }
+
+    public String getFrenchTranslation() {
+        return frenchTranslation;
     }
 }
