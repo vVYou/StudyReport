@@ -1,8 +1,6 @@
 package studyreport;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -44,7 +42,7 @@ public class ScoreReport {
 		String hadDataInputFile = "..\\data\\testnov\\HAD.csv";
 		String bristolDataInputFile = "..\\data\\testnov\\SYMPT_BRISTOL.csv";
 
-		String outputReportFile = "report.csv";
+		String outputReportFile = "report_score.csv";
 
 		initializeReport(outputReportFile);
 		Map<String, IBS> ibs = parseIBS(ibsDataInputFile);
@@ -78,13 +76,9 @@ public class ScoreReport {
 				.collect(Collectors.toCollection(TreeSet::new));
 	}
 
-	private static FileReader getFileReader(String resourceFileName) throws FileNotFoundException, URISyntaxException {
-		return new FileReader(new File(ScoreReport.class.getResource(resourceFileName).toURI()));
-	}
-
 	private static Map<String, HAD> parseHAD(String hadDataInputFile) throws IOException, URISyntaxException {
 		HashMap<String, HAD> had = new HashMap<>();
-		try (CSVParser formEntries = new CSVParser(getFileReader(hadDataInputFile), getFormat(HADCSVDescription.class))) {
+		try (CSVParser formEntries = new CSVParser(ReportUtils.getFileReader(hadDataInputFile), ReportUtils.getFormat(HADCSVDescription.class))) {
 			for (CSVRecord formEntry : formEntries) {
 				String studyId = formEntry.get(HADCSVDescription.numero_d_identification.getColumnId());
 				had.put(studyId, HADCalculation.getHad(formEntry));
@@ -95,7 +89,7 @@ public class ScoreReport {
 
 	private static Map<String, IBS> parseIBS(String ibsDataInputFile) throws IOException, URISyntaxException {
 		HashMap<String, IBS> ibs = new HashMap<>();
-		try (CSVParser formEntries = new CSVParser(getFileReader(ibsDataInputFile), getFormat(IBSCSVDescription.class))) {
+		try (CSVParser formEntries = new CSVParser(ReportUtils.getFileReader(ibsDataInputFile), ReportUtils.getFormat(IBSCSVDescription.class))) {
 			for (CSVRecord formEntry : formEntries.getRecords()) {
 				String studyId = formEntry.get(IBSCSVDescription.numero_d_identification.getColumnId());
 				ibs.put(studyId, IBSCalculation.getIBS(formEntry));
@@ -106,7 +100,7 @@ public class ScoreReport {
 
 	private static Map<String, SF12> parseSF12(String sf12DataInputFile) throws IOException, URISyntaxException {
 		HashMap<String, SF12> sf12 = new HashMap<>();
-		try (CSVParser formEntries = new CSVParser(getFileReader(sf12DataInputFile), getFormat(SF12CSVDescription.class))) {
+		try (CSVParser formEntries = new CSVParser(ReportUtils.getFileReader(sf12DataInputFile), ReportUtils.getFormat(SF12CSVDescription.class))) {
 			for (CSVRecord formEntry : formEntries.getRecords()) {
 				String studyId = formEntry.get(SF12CSVDescription.numero_d_identification.getColumnId());
 				sf12.put(studyId, SF12Calculation.getSF12(formEntry));
@@ -117,7 +111,7 @@ public class ScoreReport {
 
 	private static Map<String, Bristol> parseBristol(String bristolAnswer) throws IOException, URISyntaxException {
 		HashMap<String, Bristol> bristol = new HashMap<>();
-		try (CSVParser formEntries = new CSVParser(getFileReader(bristolAnswer), getFormat(BristolCSVDescription.class))) {
+		try (CSVParser formEntries = new CSVParser(ReportUtils.getFileReader(bristolAnswer), ReportUtils.getFormat(BristolCSVDescription.class))) {
 			for (CSVRecord formEntry : formEntries.getRecords()) {
 				String studyId = formEntry.get(BristolCSVDescription.numero_d_identification.getColumnId());
 				bristol.put(studyId, BristolReport.toBristol(formEntry));
@@ -146,11 +140,5 @@ public class ScoreReport {
 		for (StudyCase studyCase : studyCases) {
 			reportPrinter.printRecord(studyCase.getReport());
 		}
-	}
-
-	public static CSVFormat getFormat(Class<? extends Enum<?>> headerEnum) {
-		return CSVFormat.DEFAULT
-				.withHeader(headerEnum)
-				.withFirstRecordAsHeader();
 	}
 }
