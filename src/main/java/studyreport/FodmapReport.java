@@ -75,7 +75,10 @@ public class FodmapReport {
 	private static List<Object> getHeaders(List<FodmapCSVDescription> fodmapGroupDescriptions) {
 		List<Object> headers = new ArrayList<>();
 		headers.add(FodmapCSVDescription.numero_d_identification);
-		headers.addAll(fodmapGroupDescriptions);
+		headers.addAll(fodmapGroupDescriptions.stream()
+							   .map(FodmapCSVDescription::getFrenchTranslation)
+							   .sorted()
+							   .collect(Collectors.toList()));
 		return headers;
 	}
 
