@@ -3,16 +3,18 @@ package studyreport.fodmap;
 import java.util.HashMap;
 import java.util.Map;
 
-public class FodmapAnswer {
+import org.apache.commons.lang3.builder.CompareToBuilder;
 
-	private final String studyId;
+public class FodmapAnswer implements Comparable<FodmapAnswer> {
+
+	private final int studyId;
 	private final Map<FodmapCSVDescription, Integer> answers = new HashMap<>();
 
-	public FodmapAnswer(String studyId) {
+	public FodmapAnswer(int studyId) {
 		this.studyId = studyId;
 	}
 
-	public String getStudyId() {
+	public int getStudyId() {
 		return studyId;
 	}
 
@@ -22,5 +24,12 @@ public class FodmapAnswer {
 
 	public Map<FodmapCSVDescription, Integer> getAnswers() {
 		return answers;
+	}
+
+	@Override
+	public int compareTo(FodmapAnswer fodmapAnswer) {
+		return new CompareToBuilder()
+				.append(studyId, fodmapAnswer.getStudyId())
+				.toComparison();
 	}
 }

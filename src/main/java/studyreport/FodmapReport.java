@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,7 +36,7 @@ public class FodmapReport {
 		List<FodmapAnswer> answers = new ArrayList<>();
 		try (CSVParser csvParser = new CSVParser(ReportUtils.getFileReader(fodmapDataInputFile), ReportUtils.getFormat(FodmapCSVDescription.class))) {
 			for (CSVRecord record : csvParser.getRecords()) {
-				FodmapAnswer fodmapAnswer = new FodmapAnswer(record.get(FodmapCSVDescription.numero_d_identification.getColumnId()));
+				FodmapAnswer fodmapAnswer = new FodmapAnswer(ReportUtils.toInt(record.get(FodmapCSVDescription.numero_d_identification.getColumnId())));
 				for (FodmapCSVDescription description : FodmapCSVDescription.values()) {
 					if (description.getType() == AnswerType.FOOD) {
 						fodmapAnswer.addAnswer(description, ReportUtils.toInt(record.get(description)));
@@ -44,6 +45,7 @@ public class FodmapReport {
 				answers.add(fodmapAnswer);
 			}
 		}
+		answers.sort(Comparator.comparing(FodmapAnswer::getStudyId));
 		return answers;
 	}
 
