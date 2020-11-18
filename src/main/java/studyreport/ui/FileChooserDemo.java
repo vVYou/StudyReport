@@ -19,8 +19,13 @@ import javax.swing.UIManager;
 
 public class FileChooserDemo extends JPanel implements ActionListener {
 	static private final String NEW_LINE = "\n";
-	JButton openButton;
-	JButton saveButton;
+
+	private final JButton ibsInputButton;
+	private final JButton hadInputButton;
+	private final JButton sf12InputButton;
+	private final JButton extraInputsButton;
+
+	JButton saveScoreReportButton;
 	JTextArea log;
 	JFileChooser fileChooser;
 
@@ -35,24 +40,44 @@ public class FileChooserDemo extends JPanel implements ActionListener {
 		fileChooser = new JFileChooser();
 		fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 
-		openButton = new JButton("Open a File...");
-		openButton.addActionListener(this);
+		JPanel ibsPanel = new JPanel();
+		ibsInputButton = new JButton("Select IBS input csv");
+		ibsInputButton.addActionListener(this);
+		JLabel ibsLabel = getLabelNoFile();
+		ibsPanel.add(ibsInputButton);
+		ibsPanel.add(ibsLabel);
 
-		saveButton = new JButton("Save a File...");
-		saveButton.addActionListener(this);
+		JPanel hadPanel = new JPanel();
+		hadInputButton = new JButton("Select HAD input csv");
+		hadInputButton.addActionListener(this);
+		JLabel hadLabel = getLabelNoFile();
+		hadPanel.add(hadInputButton);
+		hadPanel.add(hadLabel);
 
-		//For layout purposes, put the buttons in a separate panel
-		JPanel buttonPanel = new JPanel(); //use FlowLayout
-		buttonPanel.add(openButton);
-		buttonPanel.add(saveButton);
+		sf12InputButton = new JButton("Select SF12 input csv");
+		sf12InputButton.addActionListener(this);
 
-		JPanel buttonPanel2 = new JPanel(); //use FlowLayout
-		buttonPanel2.add(new JButton("Open file 2"));
-		buttonPanel2.add(new JButton("Save file 2"));
+		extraInputsButton = new JButton("Select Extra inputs csv");
+		extraInputsButton.addActionListener(this);
 
-		JPanel buttonPanel3 = new JPanel(); //use FlowLayout
-		buttonPanel3.add(new JButton("Open file 3"));
-		buttonPanel3.add(new JButton("Save file 3"));
+		saveScoreReportButton = new JButton("Save score report");
+		saveScoreReportButton.addActionListener(this);
+
+		JPanel scoreReportPanel = new JPanel();
+		scoreReportPanel.add(ibsPanel);
+		scoreReportPanel.add(hadInputButton);
+		scoreReportPanel.add(sf12InputButton);
+		scoreReportPanel.add(extraInputsButton);
+		scoreReportPanel.add(saveScoreReportButton); //TODO
+		scoreReportPanel.setLayout(new BoxLayout(scoreReportPanel, BoxLayout.Y_AXIS));
+
+		//JPanel buttonPanel2 = new JPanel(); //use FlowLayout
+		//buttonPanel2.add(new JButton("Open file 2"));
+		//buttonPanel2.add(new JButton("Save file 2"));
+		//
+		//JPanel buttonPanel3 = new JPanel(); //use FlowLayout
+		//buttonPanel3.add(new JButton("Open file 3"));
+		//buttonPanel3.add(new JButton("Save file 3"));
 
 		//GridBagLayout gridBagLayout = new GridBagLayout();
 		//setLayout(gridBagLayout);
@@ -61,24 +86,29 @@ public class FileChooserDemo extends JPanel implements ActionListener {
 		//add(buttonPanel2, gridBagConstraint);
 		//add(logScrollPane, gridBagConstraint);
 		//setLayout(this, new BoxLayout(this, BoxLayout.Y_AXIS));
-		JPanel leftMenu = new JPanel();
-		leftMenu.add(new JLabel("Score report"));
-		leftMenu.add(buttonPanel);
-		leftMenu.add(buttonPanel2);
-		leftMenu.add(new JLabel("Score report"));
-		leftMenu.add(buttonPanel3);
-		leftMenu.setLayout(new BoxLayout(leftMenu, BoxLayout.Y_AXIS));
-		add(leftMenu, BorderLayout.WEST);
+		//JPanel leftMenu = new JPanel();
+		//leftMenu.add(new JLabel("Score report"));
+		//leftMenu.add(scoreReportPanel);
+		//leftMenu.add(buttonPanel2);
+		//leftMenu.add(new JLabel("Score report"));
+		//leftMenu.add(buttonPanel3);
+		//leftMenu.setLayout(new BoxLayout(leftMenu, BoxLayout.Y_AXIS));
+
+		add(scoreReportPanel, BorderLayout.WEST);
 		//add(buttonPanel, BorderLayout.WEST);
 		//add(buttonPanel2, BorderLayout.WEST);
 		add(logScrollPane, BorderLayout.CENTER);
+	}
+
+	private JLabel getLabelNoFile() {
+		return new JLabel("No file selected");
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
 		//Handle open button action.
-		if (e.getSource() == openButton) {
+		if (e.getSource() == ibsInputButton) {
 			int returnVal = fileChooser.showOpenDialog(FileChooserDemo.this);
 
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -91,7 +121,7 @@ public class FileChooserDemo extends JPanel implements ActionListener {
 			log.setCaretPosition(log.getDocument().getLength());
 
 			//Handle save button action.
-		} else if (e.getSource() == saveButton) {
+		} else if (e.getSource() == saveScoreReportButton) {
 			int returnVal = fileChooser.showSaveDialog(FileChooserDemo.this);
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				File file = fileChooser.getSelectedFile();
