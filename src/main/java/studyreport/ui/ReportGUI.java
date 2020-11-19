@@ -27,11 +27,14 @@ public class ReportGUI extends JPanel implements ActionListener {
 	static private final String NEW_LINE = "\n";
 	public static final String OPENING = "Opening: ";
 	public static final String CANCEL = "Open command cancelled by user.";
+	private final JButton fodmapInputButton;
+	private final JLabel fodmapLabel;
+	private final JButton generateFodmapReportButton;
 
 	JButton saveScoreReportButton;
 	JTextArea log;
 	JFileChooser fileChooser;
-	
+
 	private final JButton ibsInputButton;
 	private final JButton hadInputButton;
 	private final JButton sf12InputButton;
@@ -46,6 +49,7 @@ public class ReportGUI extends JPanel implements ActionListener {
 	private File sf12InputFile;
 	private File extraInputsFile;
 	private File scoreReportOutputFile;
+	private static JFrame frame;
 
 	public ReportGUI() {
 		super(new BorderLayout());
@@ -59,21 +63,40 @@ public class ReportGUI extends JPanel implements ActionListener {
 		fileChooser = new JFileChooser();
 		fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 
-		ibsInputButton = getFileSelectorButton("IBS");
-		ibsLabel = getLabelNoFile();
+		ibsInputButton = getFileSelectorButton(getSelectCSVName("IBS"));
+		ibsLabel = getNoFileLabel();
+		hadInputButton = getFileSelectorButton(getSelectCSVName("HAD"));
+		hadLabel = getNoFileLabel();
+		sf12InputButton = getFileSelectorButton(getSelectCSVName("SF12"));
+		sf12Label = getNoFileLabel();
+		extraInputsButton = getFileSelectorButton(getSelectCSVName("Extra inputs"));
+		extraInfoLabel = getNoFileLabel();
+		saveScoreReportButton = getFileSelectorButton("Generate score report");
+		JPanel scoreReportPanel = buildScorePanel();
 
-		hadInputButton = getFileSelectorButton("HAD");
-		hadLabel = getLabelNoFile();
+		fodmapInputButton = getFileSelectorButton(getSelectCSVName("FODMAP"));
+		fodmapLabel = getNoFileLabel();
+		generateFodmapReportButton = getFileSelectorButton("Generate fodmap reports");
+		JPanel fodmapReportPanel = buildFodmapPanel();
 
-		sf12InputButton = getFileSelectorButton("SF12");
-		sf12Label = getLabelNoFile();
+		JPanel buttonPanel = new JPanel();
+		buttonPanel.add(scoreReportPanel);
+		buttonPanel.add(fodmapReportPanel);
+		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
 
-		extraInputsButton = getFileSelectorButton("Extra inputs");
-		extraInfoLabel = getLabelNoFile();
+		add(buttonPanel, BorderLayout.WEST);
+		add(logScrollPane, BorderLayout.CENTER);
+	}
 
-		saveScoreReportButton = new JButton("Save score report");
-		saveScoreReportButton.addActionListener(this);
+	private JPanel buildFodmapPanel() {
+		JPanel fodmapReportPanel = new JPanel();
+		fodmapReportPanel.add(getFileButtonPanel(fodmapInputButton, fodmapLabel));
+		fodmapReportPanel.add(generateFodmapReportButton);
+		fodmapReportPanel.setLayout(new BoxLayout(fodmapReportPanel, BoxLayout.Y_AXIS));
+		return fodmapReportPanel;
+	}
 
+	private JPanel buildScorePanel() {
 		JPanel scoreReportPanel = new JPanel();
 		scoreReportPanel.add(getFileButtonPanel(ibsInputButton, ibsLabel));
 		scoreReportPanel.add(getFileButtonPanel(hadInputButton, hadLabel));
@@ -81,9 +104,7 @@ public class ReportGUI extends JPanel implements ActionListener {
 		scoreReportPanel.add(getFileButtonPanel(extraInputsButton, extraInfoLabel));
 		scoreReportPanel.add(saveScoreReportButton);
 		scoreReportPanel.setLayout(new BoxLayout(scoreReportPanel, BoxLayout.Y_AXIS));
-
-		add(scoreReportPanel, BorderLayout.WEST);
-		add(logScrollPane, BorderLayout.CENTER);
+		return scoreReportPanel;
 	}
 
 	private JPanel getFileButtonPanel(JButton ibsInputButton, JLabel ibsLabel) {
@@ -94,34 +115,53 @@ public class ReportGUI extends JPanel implements ActionListener {
 	}
 
 	private JButton getFileSelectorButton(String buttonName) {
-		final JButton hadInputButton = new JButton("Select " + buttonName + " input csv");
+		final JButton hadInputButton = new JButton(buttonName);
 		hadInputButton.addActionListener(this);
 		return hadInputButton;
 	}
 
-	private JLabel getLabelNoFile() {
+	private String getSelectCSVName(String buttonName) {
+		return "Select " + buttonName + " input csv";
+	}
+
+	private JLabel getNoFileLabel() {
 		return new JLabel("No file selected");
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		if (event.getSource() == ibsInputButton) {
-			getSelectedFile(OPENING, CANCEL).ifPresent(file -> ibsInputFile = file);
+			getSelectedFile(OPENING, CANCEL).ifPresent(file -> {
+				ibsInputFile = file;
+				updateLabel(ibsLabel, file);
+			});
 		} else if (event.getSource() == hadInputButton) {
-			getSelectedFile(OPENING, CANCEL).ifPresent(file -> hadInputFile = file);
+			getSelectedFile(OPENING, CANCEL).ifPresent(file -> {
+				hadInputFile = file;
+				updateLabel(hadLabel, file);
+			});
 		} else if (event.getSource() == sf12InputButton) {
-			getSelectedFile(OPENING, CANCEL).ifPresent(file -> sf12InputFile = file);
+			getSelectedFile(OPENING, CANCEL).ifPresent(file -> {
+				sf12InputFile = file;
+				updateLabel(sf12Label, file);
+			});
 		} else if (event.getSource() == extraInputsButton) {
-			getSelectedFile(OPENING, CANCEL).ifPresent(file -> extraInputsFile = file);
+			getSelectedFile(OPENING, CANCEL).ifPresent(file -> {
+				extraInputsFile = file;
+				updateLabel(extraInfoLabel, file);
+			});
 		} else if (event.getSource() == saveScoreReportButton) {
-			String calculating = "Calculating report : ";
-			String cancelCalculation = "Cancel report calculation";
-			getSelectedFile(calculating, cancelCalculation)
+			getSelectedFile("Calculating report : ", "Cancel report calculation")
 					.ifPresent(file -> {
 						scoreReportOutputFile = file;
 						calculateReport();
 					});
 		}
+	}
+
+	private void updateLabel(JLabel label, File file) {
+		label.setText(file.getName());
+		frame.pack();
 	}
 
 	private Optional<File> getSelectedFile(String openingLog, String cancelLog) {
@@ -188,7 +228,7 @@ public class ReportGUI extends JPanel implements ActionListener {
 	}
 
 	private static void createAndShowGUI() {
-		JFrame frame = new JFrame("StudyReport");
+		frame = new JFrame("StudyReport");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.add(new ReportGUI());
 		frame.pack();
