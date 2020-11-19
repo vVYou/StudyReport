@@ -1,13 +1,13 @@
 package studyreport;
 
+import java.util.ArrayList;
+import java.util.Objects;
+
 import studyreport.bristol.Bristol;
 import studyreport.bristol.BristolAnswer;
 import studyreport.had.HAD;
 import studyreport.ibs.IBS;
 import studyreport.sf12.SF12;
-
-import java.util.ArrayList;
-import java.util.Objects;
 
 public class StudyCase {
 
@@ -61,8 +61,8 @@ public class StudyCase {
 		ArrayList<Object> report = new ArrayList<>();
 		report.add(getStudyID());
 		report.add(getIbs() == null ? ScoreReport.NOT_ENOUGH_DATA : getIbs().score());
-		report.add(getHad() == null ? ScoreReport.NOT_ENOUGH_DATA : getHad().a());
-		report.add(getHad() == null ? ScoreReport.NOT_ENOUGH_DATA : getHad().d());
+		report.add(getHad() == null ? ScoreReport.NOT_ENOUGH_DATA : getHad().getA());
+		report.add(getHad() == null ? ScoreReport.NOT_ENOUGH_DATA : getHad().getA());
 		report.add(getSf12() == null ? ScoreReport.NOT_ENOUGH_DATA : getSf12().sf12mToReport());
 		report.add(getSf12() == null ? ScoreReport.NOT_ENOUGH_DATA : getSf12().sf12pToReport());
 		if (getBristol() != null) {
@@ -72,7 +72,6 @@ public class StudyCase {
 		}
 		return report.toArray();
 	}
-
 
 	@Override
 	public boolean equals(Object o) {
