@@ -27,13 +27,15 @@ public class ReportGUI extends JPanel implements ActionListener {
 	static private final String NEW_LINE = "\n";
 	public static final String OPENING = "Opening: ";
 	public static final String CANCEL = "Open command cancelled by user.";
+
 	private final JButton fodmapInputButton;
 	private final JLabel fodmapLabel;
 	private final JButton generateFodmapReportButton;
+	private static JFrame frame;
 
-	JButton saveScoreReportButton;
-	JTextArea log;
-	JFileChooser fileChooser;
+	private final JButton generateScoreReportButton;
+	private JTextArea log;
+	private JFileChooser fileChooser;
 
 	private final JButton ibsInputButton;
 	private final JButton hadInputButton;
@@ -49,16 +51,10 @@ public class ReportGUI extends JPanel implements ActionListener {
 	private File sf12InputFile;
 	private File extraInputsFile;
 	private File scoreReportOutputFile;
-	private static JFrame frame;
 
 	public ReportGUI() {
 		super(new BorderLayout());
-
-		//TODO use it for error report
-		log = new JTextArea(5, 20);
-		log.setMargin(new Insets(5, 5, 5, 5));
-		log.setEditable(false);
-		JScrollPane logScrollPane = new JScrollPane(log);
+		JScrollPane logScrollPane = initLogArea();
 
 		fileChooser = new JFileChooser();
 		fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -71,7 +67,7 @@ public class ReportGUI extends JPanel implements ActionListener {
 		sf12Label = getNoFileLabel();
 		extraInputsButton = getFileSelectorButton(getSelectCSVName("Extra inputs"));
 		extraInfoLabel = getNoFileLabel();
-		saveScoreReportButton = getFileSelectorButton("Generate score report");
+		generateScoreReportButton = getFileSelectorButton("Generate score report");
 		JPanel scoreReportPanel = buildScorePanel();
 
 		fodmapInputButton = getFileSelectorButton(getSelectCSVName("FODMAP"));
@@ -88,6 +84,14 @@ public class ReportGUI extends JPanel implements ActionListener {
 		add(logScrollPane, BorderLayout.CENTER);
 	}
 
+	private JScrollPane initLogArea() {
+		log = new JTextArea(5, 20);
+		log.setMargin(new Insets(5, 5, 5, 5));
+		log.setEditable(false);
+		JScrollPane logScrollPane = new JScrollPane(log);
+		return logScrollPane;
+	}
+
 	private JPanel buildFodmapPanel() {
 		JPanel fodmapReportPanel = new JPanel();
 		fodmapReportPanel.add(getFileButtonPanel(fodmapInputButton, fodmapLabel));
@@ -102,7 +106,7 @@ public class ReportGUI extends JPanel implements ActionListener {
 		scoreReportPanel.add(getFileButtonPanel(hadInputButton, hadLabel));
 		scoreReportPanel.add(getFileButtonPanel(sf12InputButton, sf12Label));
 		scoreReportPanel.add(getFileButtonPanel(extraInputsButton, extraInfoLabel));
-		scoreReportPanel.add(saveScoreReportButton);
+		scoreReportPanel.add(generateScoreReportButton);
 		scoreReportPanel.setLayout(new BoxLayout(scoreReportPanel, BoxLayout.Y_AXIS));
 		return scoreReportPanel;
 	}
@@ -150,11 +154,11 @@ public class ReportGUI extends JPanel implements ActionListener {
 				extraInputsFile = file;
 				updateLabel(extraInfoLabel, file);
 			});
-		} else if (event.getSource() == saveScoreReportButton) {
+		} else if (event.getSource() == generateScoreReportButton) {
 			getSelectedFile("Calculating report : ", "Cancel report calculation")
 					.ifPresent(file -> {
 						scoreReportOutputFile = file;
-						calculateReport();
+						generateScoreReport();
 					});
 		}
 	}
@@ -181,7 +185,7 @@ public class ReportGUI extends JPanel implements ActionListener {
 		log.setCaretPosition(log.getDocument().getLength());
 	}
 
-	private void calculateReport() {
+	private void generateScoreReport() {
 		try {
 			if (validateInputs()) {
 				new ScoreReport().execute(buildScoreReportInput());
@@ -197,34 +201,29 @@ public class ReportGUI extends JPanel implements ActionListener {
 	}
 
 	private ScoreReportInput buildScoreReportInput() {
-		ScoreReportInput reportInput = ScoreReportInput.Builder.aScoreReportInput()
+		return ScoreReportInput.Builder.aScoreReportInput()
 				.withIbsInput(ibsInputFile)
 				.withHadInput(hadInputFile)
 				.withSf12Input(sf12InputFile)
 				.withExtraInput(extraInputsFile)
 				.withOutputFile(scoreReportOutputFile)
 				.build();
-		return reportInput;
 	}
 
 	private boolean validateInputs() {
-		if (ibsInputFile == null) {
-			log.append("Missing IBS input file" + NEW_LINE);
-		}
-		if (hadInputFile == null) {
-			log.append("Missing HAD input file" + NEW_LINE);
-		}
-		if (sf12InputFile == null) {
-			log.append("Missing SF12 input file" + NEW_LINE);
-		}
-		if (extraInputsFile == null) {
-			log.append("Missing symptoms and bristol input file" + NEW_LINE);
-		}
-		if (scoreReportOutputFile == null) {
-			log.append("Missing output file" + NEW_LINE);
-		}
+		validateInputFilePresence(ibsInputFile, "Missing IBS input file");
+		validateInputFilePresence(hadInputFile, "Missing HAD input file");
+		validateInputFilePresence(sf12InputFile, "Missing SF12 input file");
+		validateInputFilePresence(extraInputsFile, "Missing symptoms and bristol input file");
+		validateInputFilePresence(scoreReportOutputFile, "Missing output file");
 
 		return ibsInputFile != null && hadInputFile != null && sf12InputFile != null && extraInputsFile != null && scoreReportOutputFile != null;
+	}
+
+	private void validateInputFilePresence(File inputFile, String errorMessage) {
+		if (inputFile == null) {
+			log.append(errorMessage + NEW_LINE);
+		}
 	}
 
 	private static void createAndShowGUI() {
