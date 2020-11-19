@@ -27,7 +27,7 @@ public class FodmapReport {
 		List<FodmapAnswer> answers = getFodmapAnswers(fodmapInputFile);
 
 		for (FodmapGroup fodmapGroup : FodmapGroup.values()) {
-			String outputReportFileName = fodmapReportDirectory.getName() + "report_" + fodmapGroup + ".csv";
+			String outputReportFileName = fodmapReportDirectory.getAbsolutePath() + "\\report_ " + fodmapGroup + ".csv ";
 			writeGroupReport(fodmapGroup, answers, outputReportFileName);
 		}
 	}
