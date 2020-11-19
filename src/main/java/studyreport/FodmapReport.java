@@ -1,6 +1,7 @@
 package studyreport;
 
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -34,7 +35,7 @@ public class FodmapReport {
 
 	private static List<FodmapAnswer> getFodmapAnswers(String fodmapDataInputFile) throws URISyntaxException, IOException {
 		List<FodmapAnswer> answers = new ArrayList<>();
-		try (CSVParser csvParser = new CSVParser(ReportUtils.getFileReader(fodmapDataInputFile), ReportUtils.getFormat(FodmapCSVDescription.class))) {
+		try (CSVParser csvParser = new CSVParser(new FileReader(ReportUtils.getFile(fodmapDataInputFile)), ReportUtils.getFormat(FodmapCSVDescription.class))) {
 			for (CSVRecord record : csvParser.getRecords()) {
 				FodmapAnswer fodmapAnswer = new FodmapAnswer(ReportUtils.toInt(record.get(FodmapCSVDescription.numero_d_identification.getColumnId())));
 				for (FodmapCSVDescription description : FodmapCSVDescription.values()) {

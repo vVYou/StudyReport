@@ -4,7 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
+import java.io.PrintStream;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -17,7 +20,10 @@ import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
-public class FileChooserDemo extends JPanel implements ActionListener {
+import studyreport.ScoreReport;
+import studyreport.ScoreReportInput;
+
+public class ReportGUI extends JPanel implements ActionListener {
 	static private final String NEW_LINE = "\n";
 
 	private final JButton ibsInputButton;
@@ -29,7 +35,13 @@ public class FileChooserDemo extends JPanel implements ActionListener {
 	JTextArea log;
 	JFileChooser fileChooser;
 
-	public FileChooserDemo() {
+	private File ibsInputFile;
+	private File hadInputFile;
+	private File sf12InputFile;
+	private File extraInputsFile;
+	private File scoreReportOutputFile;
+
+	public ReportGUI() {
 		super(new BorderLayout());
 
 		//TODO use it for error report
@@ -114,32 +126,76 @@ public class FileChooserDemo extends JPanel implements ActionListener {
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
-
-		//Handle open button action.
-		if (e.getSource() == ibsInputButton) {
-			int returnVal = fileChooser.showOpenDialog(FileChooserDemo.this);
-
+	public void actionPerformed(ActionEvent event) {
+		if (event.getSource() == ibsInputButton) {
+			int returnVal = fileChooser.showOpenDialog(ReportGUI.this);
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
-				File file = fileChooser.getSelectedFile();
-				//This is where a real application would open the file.
-				log.append("Opening: " + file.getName() + "." + NEW_LINE);
+				ibsInputFile = fileChooser.getSelectedFile();
+				log.append("Opening: " + ibsInputFile.getName() + "." + NEW_LINE);
 			} else {
 				log.append("Open command cancelled by user." + NEW_LINE);
 			}
 			log.setCaretPosition(log.getDocument().getLength());
 
-			//Handle save button action.
-		} else if (e.getSource() == saveScoreReportButton) {
-			int returnVal = fileChooser.showSaveDialog(FileChooserDemo.this);
+		} else if (event.getSource() == hadInputButton) {
+			int returnVal = fileChooser.showOpenDialog(ReportGUI.this);
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
-				File file = fileChooser.getSelectedFile();
-				//This is where a real application would save the file.
-				log.append("Saving: " + file.getName() + "." + NEW_LINE);
+				hadInputFile = fileChooser.getSelectedFile();
+				log.append("Opening: " + hadInputFile.getName() + "." + NEW_LINE);
+			} else {
+				log.append("Open command cancelled by user." + NEW_LINE);
+			}
+			log.setCaretPosition(log.getDocument().getLength());
+
+		} else if (event.getSource() == sf12InputButton) {
+			int returnVal = fileChooser.showOpenDialog(ReportGUI.this);
+			if (returnVal == JFileChooser.APPROVE_OPTION) {
+				sf12InputFile = fileChooser.getSelectedFile();
+				log.append("Opening: " + sf12InputFile.getName() + "." + NEW_LINE);
+			} else {
+				log.append("Open command cancelled by user." + NEW_LINE);
+			}
+			log.setCaretPosition(log.getDocument().getLength());
+
+		} else if (event.getSource() == extraInputsButton) {
+			int returnVal = fileChooser.showOpenDialog(ReportGUI.this);
+			if (returnVal == JFileChooser.APPROVE_OPTION) {
+				extraInputsFile = fileChooser.getSelectedFile();
+				log.append("Opening: " + extraInputsFile.getName() + "." + NEW_LINE);
+			} else {
+				log.append("Open command cancelled by user." + NEW_LINE);
+			}
+			log.setCaretPosition(log.getDocument().getLength());
+
+		} else if (event.getSource() == saveScoreReportButton) {
+			int returnVal = fileChooser.showSaveDialog(ReportGUI.this);
+			if (returnVal == JFileChooser.APPROVE_OPTION) {
+				scoreReportOutputFile = fileChooser.getSelectedFile();
+				log.append("Calculating report : " + scoreReportOutputFile.getName() + "." + NEW_LINE);
+				calculateReport();
 			} else {
 				log.append("Save command cancelled by user." + NEW_LINE);
 			}
 			log.setCaretPosition(log.getDocument().getLength());
+		}
+	}
+
+	private void calculateReport() {
+		//TODO add input validation
+		ScoreReportInput reportInput = ScoreReportInput.Builder.aScoreReportInput()
+				.withIbsInput(ibsInputFile)
+				.withHadInput(hadInputFile)
+				.withSf12Input(sf12InputFile)
+				.withExtraInput(extraInputsFile)
+				.withOutputFile(scoreReportOutputFile)
+				.build();
+
+		try {
+			new ScoreReport().execute(reportInput);
+		} catch (IOException e) {
+			ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+			e.printStackTrace(new PrintStream(byteArrayOutputStream));
+			log.append(new String(byteArrayOutputStream.toByteArray()));
 		}
 	}
 
@@ -149,7 +205,7 @@ public class FileChooserDemo extends JPanel implements ActionListener {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		//Add content to the window.
-		frame.add(new FileChooserDemo());
+		frame.add(new ReportGUI());
 
 		//Display the window.
 		frame.pack();

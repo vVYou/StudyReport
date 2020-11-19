@@ -14,8 +14,12 @@ public class ReportUtils {
 				.withFirstRecordAsHeader();
 	}
 
-	public static FileReader getFileReader(String resourceFileName) throws FileNotFoundException, URISyntaxException {
-		return new FileReader(new File(ScoreReport.class.getResource(resourceFileName).toURI()));
+	public static FileReader getFileReader(File file) throws FileNotFoundException {
+		return new FileReader(file);
+	}
+
+	public static File getFile(String resourceFileName) throws URISyntaxException {
+		return new File(ScoreReport.class.getResource(resourceFileName).toURI());
 	}
 
 	public static int toInt(String value) {
