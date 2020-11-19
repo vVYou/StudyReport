@@ -8,6 +8,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.Optional;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -25,6 +26,8 @@ import studyreport.ScoreReportInput;
 
 public class ReportGUI extends JPanel implements ActionListener {
 	static private final String NEW_LINE = "\n";
+	public static final String OPENING = "Opening: ";
+	public static final String CANCEL = "Open command cancelled by user.";
 
 	private final JButton ibsInputButton;
 	private final JButton hadInputButton;
@@ -92,29 +95,6 @@ public class ReportGUI extends JPanel implements ActionListener {
 		scoreReportPanel.add(saveScoreReportButton); //TODO
 		scoreReportPanel.setLayout(new BoxLayout(scoreReportPanel, BoxLayout.Y_AXIS));
 
-		//JPanel buttonPanel2 = new JPanel(); //use FlowLayout
-		//buttonPanel2.add(new JButton("Open file 2"));
-		//buttonPanel2.add(new JButton("Save file 2"));
-		//
-		//JPanel buttonPanel3 = new JPanel(); //use FlowLayout
-		//buttonPanel3.add(new JButton("Open file 3"));
-		//buttonPanel3.add(new JButton("Save file 3"));
-
-		//GridBagLayout gridBagLayout = new GridBagLayout();
-		//setLayout(gridBagLayout);
-		//GridBagConstraints gridBagConstraint = new GridBagConstraints();
-		//add(buttonPanel, gridBagConstraint);
-		//add(buttonPanel2, gridBagConstraint);
-		//add(logScrollPane, gridBagConstraint);
-		//setLayout(this, new BoxLayout(this, BoxLayout.Y_AXIS));
-		//JPanel leftMenu = new JPanel();
-		//leftMenu.add(new JLabel("Score report"));
-		//leftMenu.add(scoreReportPanel);
-		//leftMenu.add(buttonPanel2);
-		//leftMenu.add(new JLabel("Score report"));
-		//leftMenu.add(buttonPanel3);
-		//leftMenu.setLayout(new BoxLayout(leftMenu, BoxLayout.Y_AXIS));
-
 		add(scoreReportPanel, BorderLayout.WEST);
 		//add(buttonPanel, BorderLayout.WEST);
 		//add(buttonPanel2, BorderLayout.WEST);
@@ -128,60 +108,57 @@ public class ReportGUI extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		if (event.getSource() == ibsInputButton) {
-			int returnVal = fileChooser.showOpenDialog(ReportGUI.this);
-			if (returnVal == JFileChooser.APPROVE_OPTION) {
-				ibsInputFile = fileChooser.getSelectedFile();
-				log.append("Opening: " + ibsInputFile.getName() + "." + NEW_LINE);
-			} else {
-				log.append("Open command cancelled by user." + NEW_LINE);
-			}
-			log.setCaretPosition(log.getDocument().getLength());
-
+			getSelectedFile(OPENING, CANCEL).ifPresent(file -> ibsInputFile = file);
 		} else if (event.getSource() == hadInputButton) {
-			int returnVal = fileChooser.showOpenDialog(ReportGUI.this);
-			if (returnVal == JFileChooser.APPROVE_OPTION) {
-				hadInputFile = fileChooser.getSelectedFile();
-				log.append("Opening: " + hadInputFile.getName() + "." + NEW_LINE);
-			} else {
-				log.append("Open command cancelled by user." + NEW_LINE);
-			}
-			log.setCaretPosition(log.getDocument().getLength());
-
+			getSelectedFile(OPENING, CANCEL).ifPresent(file -> hadInputFile = file);
 		} else if (event.getSource() == sf12InputButton) {
-			int returnVal = fileChooser.showOpenDialog(ReportGUI.this);
-			if (returnVal == JFileChooser.APPROVE_OPTION) {
-				sf12InputFile = fileChooser.getSelectedFile();
-				log.append("Opening: " + sf12InputFile.getName() + "." + NEW_LINE);
-			} else {
-				log.append("Open command cancelled by user." + NEW_LINE);
-			}
-			log.setCaretPosition(log.getDocument().getLength());
-
+			getSelectedFile(OPENING, CANCEL).ifPresent(file -> sf12InputFile = file);
 		} else if (event.getSource() == extraInputsButton) {
-			int returnVal = fileChooser.showOpenDialog(ReportGUI.this);
-			if (returnVal == JFileChooser.APPROVE_OPTION) {
-				extraInputsFile = fileChooser.getSelectedFile();
-				log.append("Opening: " + extraInputsFile.getName() + "." + NEW_LINE);
-			} else {
-				log.append("Open command cancelled by user." + NEW_LINE);
-			}
-			log.setCaretPosition(log.getDocument().getLength());
-
+			getSelectedFile(OPENING, CANCEL).ifPresent(file -> extraInputsFile = file);
 		} else if (event.getSource() == saveScoreReportButton) {
-			int returnVal = fileChooser.showSaveDialog(ReportGUI.this);
-			if (returnVal == JFileChooser.APPROVE_OPTION) {
-				scoreReportOutputFile = fileChooser.getSelectedFile();
-				log.append("Calculating report : " + scoreReportOutputFile.getName() + "." + NEW_LINE);
-				calculateReport();
-			} else {
-				log.append("Save command cancelled by user." + NEW_LINE);
-			}
-			log.setCaretPosition(log.getDocument().getLength());
+			String calculating = "Calculating report : ";
+			String cancelCalculation = "Cancel report calculation";
+			getSelectedFile(calculating, cancelCalculation)
+					.ifPresent(file -> {
+						scoreReportOutputFile = file;
+						calculateReport();
+					});
 		}
 	}
 
+	private Optional<File> getSelectedFile(String openingLog, String cancelLog) {
+		if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+			File selectedFile = fileChooser.getSelectedFile();
+			log.append(openingLog + selectedFile.getName() + "." + NEW_LINE);
+			updateCaretPosition();
+			return Optional.of(selectedFile);
+		} else {
+			log.append(cancelLog + NEW_LINE);
+			updateCaretPosition();
+			return Optional.empty();
+		}
+	}
+
+	private void updateCaretPosition() {
+		log.setCaretPosition(log.getDocument().getLength());
+	}
+
 	private void calculateReport() {
-		//TODO add input validation
+		if (validateInputs()) {
+			try {
+				new ScoreReport().execute(buildScoreReportInput());
+				log.append("--------- Score Report Generated ----------");
+			} catch (IOException e) {
+				ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+				e.printStackTrace(new PrintStream(byteArrayOutputStream));
+				log.append(new String(byteArrayOutputStream.toByteArray()));
+			}
+		} else {
+			log.append("--------- Abort calculation ----------");
+		}
+	}
+
+	private ScoreReportInput buildScoreReportInput() {
 		ScoreReportInput reportInput = ScoreReportInput.Builder.aScoreReportInput()
 				.withIbsInput(ibsInputFile)
 				.withHadInput(hadInputFile)
@@ -189,14 +166,27 @@ public class ReportGUI extends JPanel implements ActionListener {
 				.withExtraInput(extraInputsFile)
 				.withOutputFile(scoreReportOutputFile)
 				.build();
+		return reportInput;
+	}
 
-		try {
-			new ScoreReport().execute(reportInput);
-		} catch (IOException e) {
-			ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-			e.printStackTrace(new PrintStream(byteArrayOutputStream));
-			log.append(new String(byteArrayOutputStream.toByteArray()));
+	private boolean validateInputs() {
+		if (ibsInputFile == null) {
+			log.append("Missing IBS input file" + NEW_LINE);
 		}
+		if (hadInputFile == null) {
+			log.append("Missing HAD input file" + NEW_LINE);
+		}
+		if (sf12InputFile == null) {
+			log.append("Missing SF12 input file" + NEW_LINE);
+		}
+		if (extraInputsFile == null) {
+			log.append("Missing symptoms and bristol input file" + NEW_LINE);
+		}
+		if (scoreReportOutputFile == null) {
+			log.append("Missing output file" + NEW_LINE);
+		}
+
+		return ibsInputFile != null && hadInputFile != null && sf12InputFile != null && extraInputsFile != null && scoreReportOutputFile != null;
 	}
 
 	private static void createAndShowGUI() {
