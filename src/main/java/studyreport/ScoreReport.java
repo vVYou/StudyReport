@@ -3,7 +3,6 @@ package studyreport;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -47,23 +46,23 @@ public class ScoreReport {
 		reportPrinter.close();
 	}
 
-	public static void main(String[] args) throws IOException, URISyntaxException {
-		String ibsDataInputFile = "..\\data\\testnov\\IBSSSS.csv";
-		String sf12DataInputFile = "..\\data\\testnov\\SF12.csv";
-		String hadDataInputFile = "..\\data\\testnov\\HAD.csv";
-		String bristolDataInputFile = "..\\data\\testnov\\SYMPT_BRISTOL.csv";
-
-		String outputReportFile = "report_score.csv";
-
-		ScoreReportInput scoreReportInput = ScoreReportInput.Builder.aScoreReportInput()
-				.withIbsInput(ReportUtils.getFile(ibsDataInputFile))
-				.withSf12Input(ReportUtils.getFile(sf12DataInputFile))
-				.withHadInput(ReportUtils.getFile(hadDataInputFile))
-				.withExtraInput(ReportUtils.getFile(bristolDataInputFile))
-				.withOutputFile(ReportUtils.getFile(outputReportFile))
-				.build();
-		new ScoreReport().execute(scoreReportInput);
-	}
+	//public static void main(String[] args) throws IOException, URISyntaxException {
+	//	String ibsDataInputFile = "..\\data\\testnov\\IBSSSS.csv";
+	//	String sf12DataInputFile = "..\\data\\testnov\\SF12.csv";
+	//	String hadDataInputFile = "..\\data\\testnov\\HAD.csv";
+	//	String bristolDataInputFile = "..\\data\\testnov\\SYMPT_BRISTOL.csv";
+	//
+	//	String outputReportFile = "report_score.csv";
+	//
+	//	ScoreReportInput scoreReportInput = ScoreReportInput.Builder.aScoreReportInput()
+	//			.withIbsInput(ReportUtils.getFile(ibsDataInputFile))
+	//			.withSf12Input(ReportUtils.getFile(sf12DataInputFile))
+	//			.withHadInput(ReportUtils.getFile(hadDataInputFile))
+	//			.withExtraInput(ReportUtils.getFile(bristolDataInputFile))
+	//			.withOutputFile(ReportUtils.getFile(outputReportFile))
+	//			.build();
+	//	new ScoreReport().execute(scoreReportInput);
+	//}
 
 	private static List<StudyCase> merge(Map<String, IBS> ibs, Map<String, SF12> sf12, Map<String, HAD> had, Map<String, Bristol> bristol) {
 		List<StudyCase> studyCases = new ArrayList<>();

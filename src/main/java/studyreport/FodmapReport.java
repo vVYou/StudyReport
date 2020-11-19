@@ -3,7 +3,6 @@ package studyreport;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -32,15 +31,15 @@ public class FodmapReport {
 		}
 	}
 
-	public static void main(String[] args) throws IOException, URISyntaxException {
-		String fodmapDataInputFile = "..\\data\\testnov\\FODMAP.csv";
-		List<FodmapAnswer> answers = getFodmapAnswers(ReportUtils.getFile(fodmapDataInputFile));
-
-		for (FodmapGroup fodmapGroup : FodmapGroup.values()) {
-			String outputReportFileName = "report_" + fodmapGroup + ".csv";
-			writeGroupReport(fodmapGroup, answers, outputReportFileName);
-		}
-	}
+	//public static void main(String[] args) throws IOException, URISyntaxException {
+	//	String fodmapDataInputFile = "..\\data\\testnov\\FODMAP.csv";
+	//	List<FodmapAnswer> answers = getFodmapAnswers(ReportUtils.getFile(fodmapDataInputFile));
+	//
+	//	for (FodmapGroup fodmapGroup : FodmapGroup.values()) {
+	//		String outputReportFileName = "report_" + fodmapGroup + ".csv";
+	//		writeGroupReport(fodmapGroup, answers, outputReportFileName);
+	//	}
+	//}
 
 	private static List<FodmapAnswer> getFodmapAnswers(File fodmapDataInputFile) throws IOException {
 		List<FodmapAnswer> answers = new ArrayList<>();
