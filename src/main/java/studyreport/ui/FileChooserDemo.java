@@ -32,6 +32,7 @@ public class FileChooserDemo extends JPanel implements ActionListener {
 	public FileChooserDemo() {
 		super(new BorderLayout());
 
+		//TODO use it for error report
 		log = new JTextArea(5, 20);
 		log.setMargin(new Insets(5, 5, 5, 5));
 		log.setEditable(false);
@@ -54,20 +55,28 @@ public class FileChooserDemo extends JPanel implements ActionListener {
 		hadPanel.add(hadInputButton);
 		hadPanel.add(hadLabel);
 
+		JPanel sf12Panel = new JPanel();
 		sf12InputButton = new JButton("Select SF12 input csv");
 		sf12InputButton.addActionListener(this);
+		JLabel sf12Label = getLabelNoFile();
+		sf12Panel.add(sf12InputButton);
+		sf12Panel.add(sf12Label);
 
+		JPanel extraInputPanel = new JPanel();
 		extraInputsButton = new JButton("Select Extra inputs csv");
 		extraInputsButton.addActionListener(this);
+		JLabel extraInfoLabel = getLabelNoFile();
+		extraInputPanel.add(extraInputsButton);
+		extraInputPanel.add(extraInfoLabel);
 
 		saveScoreReportButton = new JButton("Save score report");
 		saveScoreReportButton.addActionListener(this);
 
 		JPanel scoreReportPanel = new JPanel();
 		scoreReportPanel.add(ibsPanel);
-		scoreReportPanel.add(hadInputButton);
-		scoreReportPanel.add(sf12InputButton);
-		scoreReportPanel.add(extraInputsButton);
+		scoreReportPanel.add(hadPanel);
+		scoreReportPanel.add(sf12Panel);
+		scoreReportPanel.add(extraInputPanel);
 		scoreReportPanel.add(saveScoreReportButton); //TODO
 		scoreReportPanel.setLayout(new BoxLayout(scoreReportPanel, BoxLayout.Y_AXIS));
 
