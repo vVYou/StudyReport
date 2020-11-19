@@ -20,6 +20,7 @@ import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
+import studyreport.FodmapReport;
 import studyreport.ScoreReport;
 import studyreport.ScoreReportInput;
 
@@ -36,6 +37,7 @@ public class ReportGUI extends JPanel implements ActionListener {
 	private final JButton generateScoreReportButton;
 	private JTextArea log;
 	private JFileChooser fileChooser;
+	private final JFileChooser directoryChooser;
 
 	private final JButton ibsInputButton;
 	private final JButton hadInputButton;
@@ -51,6 +53,8 @@ public class ReportGUI extends JPanel implements ActionListener {
 	private File sf12InputFile;
 	private File extraInputsFile;
 	private File scoreReportOutputFile;
+	private File fodmapInputFile;
+	private File fodmapReportDirectory;
 
 	public ReportGUI() {
 		super(new BorderLayout());
@@ -69,6 +73,9 @@ public class ReportGUI extends JPanel implements ActionListener {
 		extraInfoLabel = getNoFileLabel();
 		generateScoreReportButton = getFileSelectorButton("Generate score report");
 		JPanel scoreReportPanel = buildScorePanel();
+
+		directoryChooser = new JFileChooser();
+		directoryChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
 		fodmapInputButton = getFileSelectorButton(getSelectCSVName("FODMAP"));
 		fodmapLabel = getNoFileLabel();
@@ -155,11 +162,38 @@ public class ReportGUI extends JPanel implements ActionListener {
 				updateLabel(extraInfoLabel, file);
 			});
 		} else if (event.getSource() == generateScoreReportButton) {
-			getSelectedFile("Calculating report : ", "Cancel report calculation")
+			getSelectedFile("Generate score report : ", "Cancel score report calculation")
 					.ifPresent(file -> {
 						scoreReportOutputFile = file;
 						generateScoreReport();
 					});
+		} else if (event.getSource() == fodmapInputButton) {
+			getSelectedFile(OPENING, CANCEL).ifPresent(file -> {
+				fodmapInputFile = file;
+				updateLabel(fodmapLabel, file);
+			});
+		} else if (event.getSource() == generateFodmapReportButton) {
+			getSelectedDirectory("Generate fodmap reports : ", "Cancel fodmap report generation")
+					.ifPresent(file -> {
+						fodmapReportDirectory = file;
+						generateFomapReport();
+					});
+		}
+	}
+
+	private void generateFomapReport() {
+		try {
+			if (fodmapInputFile != null) {
+				new FodmapReport().execute(fodmapInputFile, fodmapReportDirectory);
+				log.append("--------- Fodamp Reports Generated ----------");
+			} else {
+				log.append("Missing Fodmap input file");
+				log.append("--------- Abort Fodmap Report ----------");
+			}
+		} catch (Exception e) {
+			ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+			e.printStackTrace(new PrintStream(byteArrayOutputStream));
+			log.append(new String(byteArrayOutputStream.toByteArray()));
 		}
 	}
 
@@ -171,6 +205,19 @@ public class ReportGUI extends JPanel implements ActionListener {
 	private Optional<File> getSelectedFile(String openingLog, String cancelLog) {
 		if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = fileChooser.getSelectedFile();
+			log.append(openingLog + selectedFile.getName() + "." + NEW_LINE);
+			updateCaretPosition();
+			return Optional.of(selectedFile);
+		} else {
+			log.append(cancelLog + NEW_LINE);
+			updateCaretPosition();
+			return Optional.empty();
+		}
+	}
+
+	private Optional<File> getSelectedDirectory(String openingLog, String cancelLog) {
+		if (directoryChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+			File selectedFile = directoryChooser.getSelectedFile();
 			log.append(openingLog + selectedFile.getName() + "." + NEW_LINE);
 			updateCaretPosition();
 			return Optional.of(selectedFile);

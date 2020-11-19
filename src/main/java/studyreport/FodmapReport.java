@@ -1,7 +1,6 @@
 package studyreport;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -24,18 +23,28 @@ import studyreport.fodmap.FodmapGroup;
 
 public class FodmapReport {
 
-	public static void main(String[] args) throws IOException, URISyntaxException {
-		String fodmapDataInputFile = "..\\data\\testnov\\FODMAP.csv";
-		List<FodmapAnswer> answers = getFodmapAnswers(fodmapDataInputFile);
+	public void execute(File fodmapInputFile, File fodmapReportDirectory) throws IOException {
+		List<FodmapAnswer> answers = getFodmapAnswers(fodmapInputFile);
 
 		for (FodmapGroup fodmapGroup : FodmapGroup.values()) {
-			writeGroupReport(fodmapGroup, answers);
+			String outputReportFileName = fodmapReportDirectory.getName() + "report_" + fodmapGroup + ".csv";
+			writeGroupReport(fodmapGroup, answers, outputReportFileName);
 		}
 	}
 
-	private static List<FodmapAnswer> getFodmapAnswers(String fodmapDataInputFile) throws URISyntaxException, IOException {
+	public static void main(String[] args) throws IOException, URISyntaxException {
+		String fodmapDataInputFile = "..\\data\\testnov\\FODMAP.csv";
+		List<FodmapAnswer> answers = getFodmapAnswers(ReportUtils.getFile(fodmapDataInputFile));
+
+		for (FodmapGroup fodmapGroup : FodmapGroup.values()) {
+			String outputReportFileName = "report_" + fodmapGroup + ".csv";
+			writeGroupReport(fodmapGroup, answers, outputReportFileName);
+		}
+	}
+
+	private static List<FodmapAnswer> getFodmapAnswers(File fodmapDataInputFile) throws IOException {
 		List<FodmapAnswer> answers = new ArrayList<>();
-		try (CSVParser csvParser = new CSVParser(new FileReader(ReportUtils.getFile(fodmapDataInputFile)), ReportUtils.getFormat(FodmapCSVDescription.class))) {
+		try (CSVParser csvParser = new CSVParser(ReportUtils.getFileReader(fodmapDataInputFile), ReportUtils.getFormat(FodmapCSVDescription.class))) {
 			for (CSVRecord record : csvParser.getRecords()) {
 				FodmapAnswer fodmapAnswer = new FodmapAnswer(ReportUtils.toInt(record.get(FodmapCSVDescription.numero_d_identification.getColumnId())));
 				for (FodmapCSVDescription description : FodmapCSVDescription.values()) {
@@ -50,9 +59,8 @@ public class FodmapReport {
 		return answers;
 	}
 
-	private static void writeGroupReport(FodmapGroup fodmapGroup, List<FodmapAnswer> answers) throws IOException {
-		String outputReportFile = "report_" + fodmapGroup + ".csv";
-		FileWriter fileWriter = new FileWriter(new File(outputReportFile), false);
+	private static void writeGroupReport(FodmapGroup fodmapGroup, List<FodmapAnswer> answers, String outputReportFileName) throws IOException {
+		FileWriter fileWriter = new FileWriter(new File(outputReportFileName), false);
 		CSVPrinter reportPrinter = new CSVPrinter(fileWriter, CSVFormat.EXCEL);
 
 		List<FodmapCSVDescription> fodmapGroupDescriptions = getFodmapGroupDescriptions(fodmapGroup);
@@ -91,5 +99,4 @@ public class FodmapReport {
 				.sorted()
 				.collect(Collectors.toList());
 	}
-
 }
