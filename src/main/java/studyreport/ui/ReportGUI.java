@@ -95,8 +95,7 @@ public class ReportGUI extends JPanel implements ActionListener {
 		log = new JTextArea(5, 20);
 		log.setMargin(new Insets(5, 5, 5, 5));
 		log.setEditable(false);
-		JScrollPane logScrollPane = new JScrollPane(log);
-		return logScrollPane;
+		return new JScrollPane(log);
 	}
 
 	private JPanel buildFodmapPanel() {
@@ -203,6 +202,10 @@ public class ReportGUI extends JPanel implements ActionListener {
 	}
 
 	private Optional<File> getSelectedFile(String openingLog, String cancelLog) {
+		return getFile(openingLog, cancelLog, fileChooser);
+	}
+
+	private Optional<File> getFile(String openingLog, String cancelLog, JFileChooser fileChooser) {
 		if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = fileChooser.getSelectedFile();
 			log.append(openingLog + selectedFile.getName() + "." + NEW_LINE);
@@ -216,16 +219,7 @@ public class ReportGUI extends JPanel implements ActionListener {
 	}
 
 	private Optional<File> getSelectedDirectory(String openingLog, String cancelLog) {
-		if (directoryChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-			File selectedFile = directoryChooser.getSelectedFile();
-			log.append(openingLog + selectedFile.getName() + "." + NEW_LINE);
-			updateCaretPosition();
-			return Optional.of(selectedFile);
-		} else {
-			log.append(cancelLog + NEW_LINE);
-			updateCaretPosition();
-			return Optional.empty();
-		}
+		return getFile(openingLog, cancelLog, directoryChooser);
 	}
 
 	private void updateCaretPosition() {
