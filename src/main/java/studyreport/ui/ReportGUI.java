@@ -243,7 +243,7 @@ public class ReportGUI extends JPanel implements ActionListener {
 		} catch (Exception e) {
 			ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 			e.printStackTrace(new PrintStream(byteArrayOutputStream));
-			log.append(new String(byteArrayOutputStream.toByteArray()));
+			log.append(byteArrayOutputStream.toString());
 		}
 	}
 
