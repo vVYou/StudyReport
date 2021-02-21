@@ -8,6 +8,7 @@ public class IBS {
 	private final int ibs2b;
 	private final int ibs3;
 	private final int ibs4;
+	private final boolean error;
 
 	private IBS(Builder builder) {
 		ibs1a = builder.ibs1a;
@@ -17,7 +18,7 @@ public class IBS {
 		ibs2b = builder.ibs2b;
 		ibs3 = builder.ibs3;
 		ibs4 = builder.ibs4;
-
+		error = builder.error;
 	}
 
 	public int score() {
@@ -36,7 +37,11 @@ public class IBS {
 
 	@Override
 	public String toString() {
-		return "IBS = " + score();
+		if (error) {
+			return "DONNEES MANQUANTES IBS";
+		}else{
+			return "IBS = " + score();
+		}
 	}
 
 	public static class Builder {
@@ -47,6 +52,7 @@ public class IBS {
 		private int ibs2b;
 		private int ibs3;
 		private int ibs4;
+		private boolean error;
 
 		private Builder() {
 
@@ -88,6 +94,11 @@ public class IBS {
 
 		public Builder withIbs4(int ibs4) {
 			this.ibs4 = ibs4;
+			return this;
+		}
+
+		public Builder withError(boolean error) {
+			this.error = error;
 			return this;
 		}
 

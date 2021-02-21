@@ -15,7 +15,7 @@ public class SF12Calculation {
 	public static final String HEADER_P = "sf12_p";
 
 	public static SF12 getSF12(CSVRecord formEntry) {
-		return new SF12(calculateMentalWeight(formEntry), calculatePhysicalWeight(formEntry));
+		return new SF12(calculateMentalWeight(formEntry), calculatePhysicalWeight(formEntry), false);
 	}
 
 	private static BigDecimal calculateMentalWeight(CSVRecord formEntry) {

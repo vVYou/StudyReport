@@ -22,7 +22,7 @@ public class HADCalculation {
 				}
 			}
 		}
-		return new HAD(hada, hadd);
+		return new HAD(hada, hadd, false);
 	}
 
 	private static int toScore(int entry, boolean isReverseWeight) {
