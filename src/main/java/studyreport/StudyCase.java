@@ -62,7 +62,7 @@ public class StudyCase {
 		report.add(getStudyID());
 		report.add(getIbs() == null ? ScoreReport.NOT_ENOUGH_DATA : getIbs().score());
 		report.add(getHad() == null ? ScoreReport.NOT_ENOUGH_DATA : getHad().getA());
-		report.add(getHad() == null ? ScoreReport.NOT_ENOUGH_DATA : getHad().getA());
+		report.add(getHad() == null ? ScoreReport.NOT_ENOUGH_DATA : getHad().getD());
 		report.add(getSf12() == null ? ScoreReport.NOT_ENOUGH_DATA : getSf12().sf12mToReport());
 		report.add(getSf12() == null ? ScoreReport.NOT_ENOUGH_DATA : getSf12().sf12pToReport());
 		if (getBristol() != null) {
