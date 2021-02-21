@@ -3,6 +3,7 @@ package studyreport.had;
 import org.apache.commons.csv.CSVRecord;
 
 import studyreport.ReportUtils;
+import studyreport.sf12.SF12CSVDescription;
 
 public class HADCalculation {
 	public static final String HEADER_A = "had_a";
@@ -22,7 +23,9 @@ public class HADCalculation {
 				}
 			}
 		}
-		return new HAD(hada, hadd, false);
+
+		boolean isError = ReportUtils.isError(formEntry, HADCSVDescription.values());
+		return new HAD(hada, hadd, isError);
 	}
 
 	private static int toScore(int entry, boolean isReverseWeight) {

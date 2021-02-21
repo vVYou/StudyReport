@@ -35,13 +35,13 @@ public class IBS {
 		return score;
 	}
 
+	public boolean isError() {
+		return error;
+	}
+
 	@Override
 	public String toString() {
-		if (error) {
-			return "DONNEES MANQUANTES IBS";
-		}else{
 			return "IBS = " + score();
-		}
 	}
 
 	public static class Builder {

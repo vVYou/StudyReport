@@ -1,6 +1,7 @@
 package studyreport.ibs;
 
 import org.apache.commons.csv.CSVRecord;
+import studyreport.ReportUtils;
 
 public class IBSCalculation {
     public static final String HEADER = "ibs_sss";
@@ -19,16 +20,12 @@ public class IBSCalculation {
     }
 
     private static boolean getError(CSVRecord formEntry) {
-        return isAbsent(formEntry, IBSCSVDescription.ibs_sss_1_a)
-                || isAbsent(formEntry, IBSCSVDescription.ibs_sss_2_a)
-                || isAbsent(formEntry, IBSCSVDescription.ibs_sss_3)
-                || isAbsent(formEntry, IBSCSVDescription.ibs_sss_4)
-                || (getBoolean(formEntry, IBSCSVDescription.ibs_sss_1_a) && isAbsent(formEntry, IBSCSVDescription.ibs_sss_1_b))
-                || (getBoolean(formEntry, IBSCSVDescription.ibs_sss_2_a) && isAbsent(formEntry, IBSCSVDescription.ibs_sss_2_b));
-    }
-
-    private static boolean isAbsent(CSVRecord formEntry, IBSCSVDescription ibsCsvDesc) {
-        return formEntry.get(ibsCsvDesc).isEmpty();
+        return ReportUtils.isAbsent(formEntry, IBSCSVDescription.ibs_sss_1_a)
+                || ReportUtils.isAbsent(formEntry, IBSCSVDescription.ibs_sss_2_a)
+                || ReportUtils.isAbsent(formEntry, IBSCSVDescription.ibs_sss_3)
+                || ReportUtils.isAbsent(formEntry, IBSCSVDescription.ibs_sss_4)
+                || (getBoolean(formEntry, IBSCSVDescription.ibs_sss_1_a) && ReportUtils.isAbsent(formEntry, IBSCSVDescription.ibs_sss_1_b))
+                || (getBoolean(formEntry, IBSCSVDescription.ibs_sss_2_a) && ReportUtils.isAbsent(formEntry, IBSCSVDescription.ibs_sss_2_b));
     }
 
     private static Integer getInt(CSVRecord formEntry, IBSCSVDescription IBSCSVDescription) {
