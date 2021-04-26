@@ -59,8 +59,10 @@ public class FodmapReport {
 	}
 
 	private static void writeGroupReport(FodmapGroup fodmapGroup, List<FodmapAnswer> answers, String outputReportFileName) throws IOException {
-		FileWriter fileWriter = new FileWriter(new File(outputReportFileName), false);
-		CSVPrinter reportPrinter = new CSVPrinter(fileWriter, CSVFormat.EXCEL);
+		CSVPrinter reportPrinter;
+		try (FileWriter fileWriter = new FileWriter(outputReportFileName, false)) {
+			reportPrinter = new CSVPrinter(fileWriter, CSVFormat.EXCEL);
+		}
 
 		List<FodmapCSVDescription> fodmapGroupDescriptions = getFodmapGroupDescriptions(fodmapGroup);
 
@@ -87,7 +89,6 @@ public class FodmapReport {
 		headers.add(FodmapCSVDescription.numero_d_identification);
 		headers.addAll(fodmapGroupDescriptions.stream()
 							   .map(FodmapCSVDescription::getFrenchTranslation)
-							   .sorted()
 							   .collect(Collectors.toList()));
 		return headers;
 	}
@@ -95,7 +96,7 @@ public class FodmapReport {
 	private static List<FodmapCSVDescription> getFodmapGroupDescriptions(FodmapGroup fodmapGroup) {
 		return Arrays.stream(FodmapCSVDescription.values())
 				.filter(description -> ArrayUtils.contains(description.getGroups(), fodmapGroup))
-				.sorted()
+				.sorted(Comparator.comparing(FodmapCSVDescription::getFrenchTranslation))
 				.collect(Collectors.toList());
 	}
 }
